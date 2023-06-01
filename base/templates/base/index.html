@@ -1,0 +1,125 @@
+{% extends "layout_main.html" %}
+
+{% load static %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+
+<style>
+    img {
+        height: 100vh;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .custom-middle {
+        height: 100%;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .svg-wrapper {
+        height: 60px;
+            margin: 0 auto;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 320px;
+    }
+
+    .shape {
+        fill: transparent;
+        stroke-dasharray: 140 540;
+        stroke-dashoffset: -474;
+        stroke-width: 8px;
+        stroke: #19f6e8;
+    }
+
+    .text {
+        color: #fff;
+        font-family: 'Roboto Condensed';
+        font-size: 22px;
+        letter-spacing: 8px;
+        line-height: 32px;
+        position: relative;
+        top: -48px;
+    }
+
+    .no-decoration {
+        text-decoration: none;
+    }
+
+    @keyframes draw {
+        0% {
+            stroke-dasharray: 140 540;
+            stroke-dashoffset: -474;
+            stroke-width: 8px;
+        }
+        100% {
+            stroke-dasharray: 760;
+            stroke-dashoffset: 0;
+            stroke-width: 2px;
+        }
+    }
+
+    .svg-wrapper:hover .shape {
+        -webkit-animation: 0.5s draw linear forwards;
+        animation: 0.5s draw linear forwards;
+    }
+
+</style>
+
+<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://images.pexels.com/photos/9836456/pexels-photo-9836456.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption">
+                <div class="svg-wrapper custom-middle">
+                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="shape" height="60" width="320" />
+                    </svg>
+                    <a href="{% url 'items:search' %}" class="no-decoration">
+                        <div class="text">SHOP</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://images.pexels.com/photos/572463/pexels-photo-572463.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption">
+                <div class="svg-wrapper custom-middle">
+                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="shape" height="60" width="320" />
+                    </svg>
+                    <a href="{% url 'items:search' %}" class="no-decoration">
+                        <div class="text">SHOP</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://images.pexels.com/photos/6615599/pexels-photo-6615599.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption">
+                <div class="svg-wrapper custom-middle">
+                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="shape" height="60" width="320" />
+                    </svg>
+                    <a href="{% url 'items:search' %}" class="no-decoration">
+                        <div class="text">SHOP</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+{% endblock %}
