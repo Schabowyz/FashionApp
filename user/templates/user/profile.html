@@ -14,4 +14,12 @@
         <li>surname: {{ user.last_name }}</li>
     </ul>
 
+    {% if address %}
+        <ul>
+            <li>{{ address.street }} {{ address.number }}</li>
+            <li>{{ address.postal }}, {{ address.city }}</li>
+            <li>{{ address.country }}</li>
+        </ul>
+    {% endif %}
+
 {% endblock %}

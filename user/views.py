@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .helpers import user_login, user_logout, user_register
+from .helpers import user_login, user_logout, user_register, get_user_address
 
 
 def login_view(request):
@@ -25,7 +25,9 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, "user/profile.html")
+    return render(request, "user/profile.html", {
+        "address": get_user_address(request)
+    })
 
 @login_required
 def orders(request):

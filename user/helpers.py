@@ -1,6 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+
+from .models import UserAddress
 
 
 def user_login(request):
@@ -23,3 +26,10 @@ def user_register(request):
     login(request, user)
     messages.success(request, "you're registered now")
     return True
+
+def get_user_address(request):
+    try:
+        address = UserAddress.objects.get(user_id=request.user.id)
+    except ObjectDoesNotExist:
+        address = None
+    return address

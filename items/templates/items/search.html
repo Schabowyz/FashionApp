@@ -6,6 +6,22 @@
 
 {% block body %}
 
+    <br><br>
     <h1>This is a items search page</h1>
+    
+    {% if items %}
+        {% for item in items %}
+            <ul>
+                <img src="{{ item.image.url }}" class="img-thumbnail" alt="{{ item.name }}">
+                <li>{{ item.image.url }}</li>
+                <li>{{ item.name }}</li>
+                <li>{{ item.gender }}</li>
+                <li>{{ item.category }}</li>
+                <li>{{ item.description }}</li>
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>There's nothing in here</p>
+    {% endif %}
 
 {% endblock %}
