@@ -24,7 +24,7 @@ img {
     stroke-dasharray: 140 540;
     stroke-dashoffset: -474;
     stroke-width: 8px;
-    stroke: #19f6e8;
+    stroke: rgba(255, 255, 255, 0.7);
 }
 
 .text {

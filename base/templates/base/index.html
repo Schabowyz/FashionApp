@@ -8,56 +8,121 @@
 
 <link href="{% static 'base/styles.css' %}" rel="stylesheet">
 
-<div id="carousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="https://images.pexels.com/photos/9836456/pexels-photo-9836456.jpeg" class="d-block w-100" alt="...">
-            <div class="carousel-caption">
-                <div class="svg-wrapper custom-middle">
-                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
-                        <rect class="shape" height="60" width="320" />
-                    </svg>
-                    <a href="{% url 'items:search' %}" class="no-decoration">
-                        <div class="text">SHOP</div>
-                    </a>
+<!-- Carousel -->
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <img src="https://images.pexels.com/photos/9836456/pexels-photo-9836456.jpeg" class="d-block w-100" alt="...">
+                <div class="carousel-caption">
+                    <div class="row">
+                        <div class="col-xxl-2"></div>
+                        <div class="col-xxl-4">
+                            <div class="p-2 d-grid gap-2">
+                                <div class="svg-wrapper custom-middle">
+                                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="60" width="320" />
+                                    </svg>
+                                    <a href="{% url 'items:search' %}" class="no-decoration">
+                                        <div class="text">SHOP</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-4">
+                            <div class="p-2 d-grid gap-2">
+                                <div class="svg-wrapper custom-middle">
+                                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="60" width="320" />
+                                    </svg>
+                                    <a href="{% url 'base:about' %}" class="no-decoration">
+                                        <div class="text">ABOUT</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/572463/pexels-photo-572463.jpeg" class="d-block w-100" alt="...">
+                <div class="carousel-caption">
+                    <div class="row">
+                        <div class="col-xxl-2"></div>
+                        <div class="col-xxl-4">
+                            <div class="p-2 d-grid gap-2">
+                                <div class="svg-wrapper custom-middle">
+                                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="60" width="320" />
+                                    </svg>
+                                    <a href="{% url 'items:search' %}" class="no-decoration">
+                                        <div class="text">SHOP</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-4">
+                            <div class="p-2 d-grid gap-2">
+                                <div class="svg-wrapper custom-middle">
+                                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="60" width="320" />
+                                    </svg>
+                                    <a href="{% url 'base:about' %}" class="no-decoration">
+                                        <div class="text">ABOUT</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/6615599/pexels-photo-6615599.jpeg" class="d-block w-100" alt="...">
+                <div class="carousel-caption">
+                    <div class="row">
+                        <div class="col-xxl-2"></div>
+                        <div class="col-xxl-4">
+                            <div class="p-2 d-grid gap-2">
+                                <div class="svg-wrapper custom-middle">
+                                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="60" width="320" />
+                                    </svg>
+                                    <a href="{% url 'items:search' %}" class="no-decoration">
+                                        <div class="text">SHOP</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-4">
+                            <div class="p-2 d-grid gap-2">
+                                <div class="svg-wrapper custom-middle">
+                                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+                                        <rect class="shape" height="60" width="320" />
+                                    </svg>
+                                    <a href="{% url 'base:about' %}" class="no-decoration">
+                                        <div class="text">ABOUT</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-2"></div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="carousel-item">
-            <img src="https://images.pexels.com/photos/572463/pexels-photo-572463.jpeg" class="d-block w-100" alt="...">
-            <div class="carousel-caption">
-                <div class="svg-wrapper custom-middle">
-                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
-                        <rect class="shape" height="60" width="320" />
-                    </svg>
-                    <a href="{% url 'items:search' %}" class="no-decoration">
-                        <div class="text">SHOP</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="https://images.pexels.com/photos/6615599/pexels-photo-6615599.jpeg" class="d-block w-100" alt="...">
-            <div class="carousel-caption">
-                <div class="svg-wrapper custom-middle">
-                    <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
-                        <rect class="shape" height="60" width="320" />
-                    </svg>
-                    <a href="{% url 'items:search' %}" class="no-decoration">
-                        <div class="text">SHOP</div>
-                    </a>
-                </div>
-            </div>
-        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
 
 {% endblock %}
