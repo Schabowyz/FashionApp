@@ -6,6 +6,19 @@
 
 {% block body %}
 
+    <br><br>
     <h1>This is a register page</h1>
+    <form action="{% url 'user:register' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input class="form-control" type="email" name="username" placeholder="email address" required="required" autofocus>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-secondary">register</button>
+        </div>
+    </form>
 
 {% endblock %}

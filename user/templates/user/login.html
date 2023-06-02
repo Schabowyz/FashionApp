@@ -5,7 +5,20 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-
+    
+    <br><br>
     <h1>This is a login page</h1>
+    <form action="{% url 'user:login' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input class="form-control" type="email" name="username" placeholder="email address" required="required" autofocus>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-secondary">login</button>
+        </div>
+    </form>
 
 {% endblock %}

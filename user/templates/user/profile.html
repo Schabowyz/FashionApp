@@ -6,6 +6,12 @@
 
 {% block body %}
 
+    <br><br>
     <h1>This is a profile page</h1>
+    <ul>
+        <li>email: {{ user.email }}</li>
+        <li>name: {{ user.first_name }}</li>
+        <li>surname: {{ user.last_name }}</li>
+    </ul>
 
 {% endblock %}

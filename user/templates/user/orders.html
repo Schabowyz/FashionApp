@@ -6,6 +6,16 @@
 
 {% block body %}
 
+    <br><br>
     <h1>This is an orders page</h1>
-
+    <ul>
+        {% if orders %}
+            {% for order in orders %}
+                <il>order info</il>
+            {% endfor %}
+        {% else %}
+            you have no orders yet
+        {% endif %}
+    </ul>
+    
 {% endblock %}
