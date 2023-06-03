@@ -9,4 +9,6 @@ def search(request):
     })
 
 def product(request, item_id):
-    return render(request, "items/product.html")
+    return render(request, "items/product.html", {
+        "item": Item.objects.get(id=item_id)
+    })

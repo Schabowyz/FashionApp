@@ -8,5 +8,14 @@
     
     <br><br>
     <h1>This is a product page</h1>
+    <ul>
+        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+        <li>{{ item.image.url }}</li>
+        <li>{{ item.name }}</li>
+        <li>{{ item.gender }}</li>
+        <li>{{ item.category }}</li>
+        <li>{{ item.description }}</li>
+        <li>{{ item.quantity }}</li>
+    </ul>
 
 {% endblock %}

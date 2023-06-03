@@ -1,0 +1,6 @@
+{% autoescape off %}
+    Hello {{ user.username }}!
+
+    Welcome to MODAWCHUJ. Please click link below to confirm your registration:
+    http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}
+{% endautoescape %}
