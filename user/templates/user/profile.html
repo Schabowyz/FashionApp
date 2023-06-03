@@ -22,4 +22,58 @@
         </ul>
     {% endif %}
 
+    <h4>Change information</h4>
+    <form action="{% url 'user:info' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input class="form-control" type="email" name="email" placeholder="first name" required="required" value="{{ request.user.email }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="first_name" placeholder="first name" required="required" value="{{ user.first_name }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="last_name" placeholder="last name" required="required" value="{{ user.last_name }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="country" placeholder="country" required="required" value="{{ user_address.country }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="city" placeholder="city" required="required" value="{{ user_address.city }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="postal" placeholder="postal" required="required" value="{{ user_address.postal }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="street" placeholder="street" required="required" value="{{ user_address.street }}">
+        </div>
+        <div class="mb-3">
+            <input class="form-control" type="text" name="number" placeholder="number" required="required" value="{{ user_address.number }}">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-secondary">submit changes</button>
+        </div>
+    </form>
+
+    <h4>Change password</h4>
+    <form action="{% url 'user:password' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-secondary">submit changes</button>
+        </div>
+    </form>
+
+    <h4>Delete account</h4>
+    <form action="{% url 'user:delete' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-secondary">submit changes</button>
+        </div>
+    </form>
+
 {% endblock %}
