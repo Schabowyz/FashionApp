@@ -1,11 +1,12 @@
 from django.shortcuts import render
 
 from .models import Item
+from .helpers import items_page
 
 # Create your views here.
-def search(request):
+def search(request, page):
     return render(request, "items/search.html", {
-        "items": Item.objects.all()
+        "page": items_page(request, page)
     })
 
 def product(request, item_id):

@@ -9,8 +9,8 @@
     <br><br>
     <h1>This is a items search page</h1>
     
-    {% if items %}
-        {% for item in items %}
+    {% if page %}
+        {% for item in page %}
             <ul>
                 <img src="{{ item.image.url }}" class="img-thumbnail" alt="{{ item.name }}">
                 <li><a href="{% url 'items:product' item.id %}">{{ item.name }}</a></li>
@@ -19,8 +19,14 @@
                 <li>{{ item.description }}</li>
             </ul>
         {% endfor %}
-    {% else %}
-        <p>There's nothing in here</p>
+        <div class="page-links">
+            {% if page.has_previous %}
+                <a href="{% url 'items:search' page=page.previous_page_number %}">prev</a>
+            {% endif %}
+            {% if page.has_next %}
+                <a href="{% url 'items:search' page=page.next_page_number %}">next</a>
+            {% endif %}
+        </div>
     {% endif %}
 
 {% endblock %}
