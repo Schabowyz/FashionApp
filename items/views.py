@@ -6,7 +6,9 @@ from .helpers import items_page
 # Create your views here.
 def search(request, page):
     return render(request, "items/search.html", {
-        "page": items_page(request, page)
+        "page": items_page(request, page),
+        "genders": Item.GENDERS,
+        "categories": Item.CATEGORIES
     })
 
 def product(request, item_id):

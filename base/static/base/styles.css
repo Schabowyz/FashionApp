@@ -53,8 +53,3 @@ img {
         stroke-width: 2px;
     }
 }
-
-.svg-wrapper:hover .shape {
-    -webkit-animation: 0.5s draw linear forwards;
-    animation: 0.5s draw linear forwards;
-}
