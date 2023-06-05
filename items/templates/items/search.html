@@ -6,154 +6,7 @@
 
 {% block body %}
 
-    <style>
-
-        /* NAVBAR */
-        .custom-transparent {
-                background-color: rgb(0, 0, 0);
-        }
-        .navbar-space {
-            width: 100%;
-            height: 90px;
-            background-color: transparent;
-        }
-        .custom-almost-transparent {
-                background-color: rgb(0, 0, 0, 0.5);
-                border-color: rgba(255, 255, 255, 0.5);
-            }
-
-
-        /* SEARCH FORM */
-        .disable-select {
-            user-select: none; /* supported by Chrome and Opera */
-            -webkit-user-select: none; /* Safari */
-            -khtml-user-select: none; /* Konqueror HTML */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* Internet Explorer/Edge */
-        }
-        .search-bar {
-            background: transparent;
-            border: none;
-        }
-        .form {
-            display: flex;
-            flex-direction: row;
-        }
-        .search-field {
-            width: -webkit-calc(100% - 30px);
-            border: none;
-            outline: none;
-        }
-        .search-button {
-            background: transparent;
-            border: none;
-            outline: none;
-            margin-left: -5px;
-        }
-        .search-button-img {
-            width: 20px;
-            height: 20px;
-            object-fit: cover;
-        }
-
-
-        /* CHECKBOXES */
-        input[type="checkbox"] { display: none; }
-        input[type="checkbox"] + label {
-            position: relative;
-            padding-left: 20px;
-            cursor: pointer;
-        }
-        input[type="checkbox"] + label:last-child { margin-bottom: 0; }
-        input[type="checkbox"] + label:before {
-            content: '';
-            position: absolute;
-            left: 0;
-        }
-        input[type="checkbox"]:checked + label:before {
-            content: '+'
-        }
-
-
-        /* ITEM CARDS */
-        .cta-background {
-            background-size: cover;
-            background-position: center center;
-            bottom: 0;
-            filter: blur(50px);
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 100%;
-            z-index: -1;
-        }
-        .cta {
-            background: #333;
-            height: 450px;
-            overflow: hidden;
-            position: relative;
-            width: 100%
-        }
-        @media (min-width: 992px){
-            .cta {
-                width: 300px;
-            }
-        }
-        @media (max-width: 576px){
-            .cta {
-                height: 600px;
-            }
-        }
-        .cta:hover img {
-            top: -10%;
-            filter: brightness(70%);
-        }
-        .cta:hover .text {
-            bottom: 0;
-        }
-        .cta img {
-            height: 110%;
-            width: 100%;
-            object-fit: cover;
-            bottom: 0;
-            filter: brightness(100%);
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transition: 0.2s ease-in-out;
-            width: 115%;
-        }
-        .cta .text {
-            bottom: -22%;
-            padding: 15px;
-            position: absolute;
-            transition: 0.2s ease-in-out;
-        }
-        .cta .text h2 {
-            color: #fff;
-            display: inline-block;
-            font-weight: 300;
-            margin-bottom: 5px;
-            position: relative;
-        }
-        .cta .text p {
-            color: #fff;
-            font-weight: 300;
-        }
-
-
-        /* SPACING ON SMALL DEVICE */
-        @media (max-width: 576px){
-            .spacing {
-                margin-top: 40px;
-            }
-        }
-
-    </style>
-
-    
+    <link href="{% static 'search/styles.css' %}" rel="stylesheet">  
 
     <div class="navbar-space"></div>
 
@@ -202,14 +55,16 @@
                                 <div class="container card_container">
                                     <div class="cta">
                                         <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                                        <div class="text">
-                                            <h2>{{ item.name }}</h2>
-                                            <p>
-                                                {{ item.gender.0 }}<br>
-                                                {{ item.category }}<br>
-                                                {% if item.quantity > 0 %}available {{ item.quantity }} pcs.{% else %}not available{% endif %}<br>
-                                            </p>
-                                        </div>
+                                        <a href="{% url 'items:product' item_id=item.id %}">
+                                            <div class="text">
+                                                <h2>{{ item.name }}</h2>
+                                                <p>
+                                                    {{ item.gender }}<br>
+                                                    {{ item.category }}<br>
+                                                    {% if item.quantity > 0 %}available {{ item.quantity }} pcs.{% else %}not available{% endif %}<br>
+                                                </p>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                         

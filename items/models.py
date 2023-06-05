@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 class Item(models.Model):
     GENDERS = [
-        ("male", "male"),
-        ("female", "female"),
-        ("unisex", "unisex")
+        ("m", "male"),
+        ("f", "female"),
+        ("u", "unisex")
     ]
     CATEGORIES = [
         ("shoes", "shoes"),
@@ -25,7 +25,7 @@ class Item(models.Model):
     name = models.CharField(max_length=128)
     gender = models.CharField(choices=GENDERS, max_length=16)
     category = models.CharField(choices=CATEGORIES, max_length=16)
-    description = models.CharField(max_length=512)
+    description = models.CharField(max_length=2048)
     quantity = models.IntegerField()
     image = models.ImageField(upload_to="images")
     visibility = models.BooleanField(default=True)
