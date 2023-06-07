@@ -76,22 +76,20 @@
                                     {% endif %}
                                 </ul>
                             </div>
-
                             <div class="dropdown">
                                 <a class="nav-item nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">profile</a>
                                 <ul class="dropdown-menu dropdown-menu-dark custom-almost-transparent" aria-labelledby="navbarDropdown">
                                     {% if user.is_authenticated %}
                                         <li><a class="dropdown-item custom-onclick" href="{% url 'user:profile' %}">your profile</a></li>
-                                        <li><a class="dropdown-item custom-onclick" href="{% url 'user:orders' %}">your orders</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item custom-onclick" href="{% url 'user:logout' %}">logout</a></li>
                                     {% else %}
                                         <li><a class="dropdown-item custom-onclick" href="{% url 'user:login' %}">login</a></li>
+                                        <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item custom-onclick" href="{% url 'user:register' %}">register</a></li>
                                     {% endif %}
                                 </ul>
                             </div>
-
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'base:about' %}">about</a>
                             </li>

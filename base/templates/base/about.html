@@ -6,6 +6,40 @@
 
 {% block body %}
 
-    <h1>This is an about page</h1>
+    <link href="{% static 'base/about.css' %}" rel="stylesheet">
+
+    <div class="d-flex align-items-center justify-content-center full-heigth">
+        <div class="container">
+            <div class="navbar-space"></div>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <h3>Welcome to MODAWCHUJ!</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <p class="text">Welcome to the virtual storefront of my fictional clothing shop - MODAWCHUJ! This webpage is a personal project crafted with the intention of honing my web development skills. Although the shop itself doesn't physically exist, this platform showcases my passion for web design. Through this webpage, you can explore a range of imaginary apparel, from trendy outfits to classic ensembles. While the products aren't available for purchase, the webpage serves as a testament to my dedication to creating an aesthetically pleasing and user-friendly online shopping experience. Feel free to browse through the visually appealing layout, interactive features, and carefully crafted product descriptions. Enjoy this virtual glimpse into the world of fashion and web development!</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <p class="text">
+                        I don't own any of the photos included in this application. All of them were found on the internet, so I would like to mention all the authors. They can be found in a pastebin link below:<br>
+                        pastebinlink
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <p class="text">If you liked the application and you're are interested in hiring me, you can get in touch with me at: dryznar96@gmail.com</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <p class="text">Tools used to create the application:<br>Python<br>Django<br>HTML<br>CSS<br>Bootstrap</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

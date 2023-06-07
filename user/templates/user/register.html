@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <link href="{% static 'register/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'user/register.css' %}" rel="stylesheet">
 
     <!-- BACKGROUND -->
     <div class="bg">
@@ -23,7 +23,7 @@
                 {% csrf_token %}
                 <p>ACCOUNT INFORMATION:</p>
                 <div class="mb-3">
-                    <input type="email" class="form-control" name="username" placeholder="email address" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" name="username" placeholder="email address" aria-describedby="emailHelp" autofocus>
                     <div id="emailHelp" class="form-text">
                         <ul>
                             <li>unique for each user</li>

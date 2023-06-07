@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <link href="{% static 'login/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'user/login.css' %}" rel="stylesheet">
 
     <!-- BACKGROUND -->
     <div class="bg">
@@ -22,7 +22,7 @@
             <form action="{% url 'user:login' %}" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <input type="email" class="form-control" name="username" placeholder="email address">
+                    <input type="email" class="form-control" name="username" placeholder="email address" autofocus>
                 </div>
                 <div class="mb-3">
                     <input type="password" class="form-control" name="password" placeholder="password">
