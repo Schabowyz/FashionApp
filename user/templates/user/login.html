@@ -25,8 +25,10 @@
                     <input type="email" class="form-control" name="username" placeholder="email address">
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" aria-describedby="passwordHelp" name="password" placeholder="password">
-                </div><br><br>
+                    <input type="password" class="form-control" name="password" placeholder="password">
+                </div>
+                <br><hr class="dropdown-divider">
+                <br><br>
                 <div class="svg-wrapper">
                     <svg height="60" width="100%">
                             <rect class="shape" height="60" width="100%">
@@ -43,21 +45,3 @@
     </div>
 
 {% endblock %}
-
-
-
-<br><br>
-<h1>This is a login page</h1>
-<form action="{% url 'user:login' %}" method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <input class="form-control" type="email" name="username" placeholder="email address" required="required" autofocus>
-    </div>
-    <div class="mb-3">
-        <input class="form-control" type="password" name="password" placeholder="password" required="required">
-    </div>
-    <div class="mb-3">
-        <button type="submit" class="btn btn-secondary">login</button>
-    </div>
-</form>
-<a href="{% url 'user:request_renew' %}">Forgout your password?</a>

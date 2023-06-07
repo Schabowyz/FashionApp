@@ -6,19 +6,80 @@
 
 {% block body %}
 
-    <br><br>
-    <h1>This is a register page</h1>
-    <form action="{% url 'user:register' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input class="form-control" type="email" name="username" placeholder="email address" required="required" autofocus>
+    <link href="{% static 'register/styles.css' %}" rel="stylesheet">
+
+    <!-- BACKGROUND -->
+    <div class="bg">
+        <div class="bg-wrapper">
+            <img src="https://images.pexels.com/photos/3109603/pexels-photo-3109603.jpeg">
         </div>
-        <div class="mb-3">
-            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="panel">
+            <h4>SIGN UP</h4><br>
+            <form action="{% url 'user:register' %}" method="post">
+                {% csrf_token %}
+                <p>ACCOUNT INFORMATION:</p>
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="username" placeholder="email address" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">
+                        <ul>
+                            <li>unique for each user</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="password" aria-describedby="passwordHelp">
+                    <div id="passwordHelp" class="form-text">
+                        <ul>
+                            <li>at least 8 characters long</li>
+                            <li>not similar to email address</li>
+                            <li>not among commonly used passwords</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" aria-describedby="repeat_passwordHelp" name="repeat_password" placeholder="repeat password">
+                </div>
+                <br><hr class="dropdown-divider"><br>
+                <p>PERSONAL INFORMATION:</p>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="first_name" placeholder="first name">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="last_name" placeholder="last name">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="country" placeholder="country">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="city" placeholder="city">
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="no-arrows form-control" name="postal" placeholder="postal">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="street" placeholder="street">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="number" placeholder="house number">
+                </div>
+                <br><hr class="dropdown-divider">
+                <br><br>
+                <div class="svg-wrapper">
+                    <svg height="60" width="100%">
+                            <rect class="shape" height="60" width="100%">
+                    </svg>
+                    <div><button class="text" type="submit">SIGN UP</button></div>
+                </div>
+            </form>
+            <br>
+            <div class="questions">
+                <p><a class="decorator" href="{% url 'user:login' %}">Already an user? Sign in now!</a></p>
+            </div>
         </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-secondary">register</button>
-        </div>
-    </form>
+    </div>
 
 {% endblock %}

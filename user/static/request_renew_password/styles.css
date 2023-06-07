@@ -48,6 +48,9 @@
         margin-left: 25vw;
     }
 }
+.form-text ul {
+    text-align: left;
+}
 
 
 /* LOGIN BUTTON */
@@ -95,16 +98,4 @@ svg {
 button {
     border: none;
     background-color: transparent;
-}
-
-
-/* QUESTIONS */
-.questions {
-    font-size: 14px
-}
-.decorator {
-    color: black;
-}
-.decorator:hover {
-    color: grey;
 }

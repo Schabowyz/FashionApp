@@ -71,7 +71,7 @@ def user_activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        messages.success(request, "your account was activated adn you're logged in")
+        messages.success(request, "your account was activated and you're logged in")
     else:
         messages.error(request, "activation link is invalid")
 

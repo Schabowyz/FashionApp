@@ -33,11 +33,11 @@
 }
 
 
-/* LOGIN FORM POSITIONING */
+/* REGISTER FORM POSITIONING */
 .panel {
     width: 300px;
     position: absolute;
-    top: 35%;
+    top: 10%;
     padding: 15px;
     text-align: center;
     align-items: center;
@@ -48,9 +48,12 @@
         margin-left: 25vw;
     }
 }
+.form-text ul {
+    text-align: left;
+}
 
 
-/* LOGIN BUTTON */
+/* REGISTER BUTTON */
 svg {
     align-items: center;
 }
@@ -107,4 +110,17 @@ button {
 }
 .decorator:hover {
     color: grey;
+}
+
+
+/* HIDE ARROWS IN NUMBER INPUT */
+/* Chrome, Safari, Edge, Opera */
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+.no-arrows[type=number] {
+    -moz-appearance: textfield;
 }
