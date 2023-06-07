@@ -6,11 +6,12 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Prefetch
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from .models import UserAddress
+from .models import UserAddress, Order, OrderedItems
 from .tokens import account_activation_token
 
 
@@ -21,6 +22,17 @@ def get_user_address(request):
     except ObjectDoesNotExist:
         address = None
     return address
+
+
+def get_user_orders(request):
+    orders_list = []
+    orders = Order.objects.filter(user_id=request.user.id)
+    for instance in orders:
+        order = {}
+        order["order_info"] = instance
+        order["order_items"] = OrderedItems.objects.select_related("item_id").filter(order_id=instance.id)
+        orders_list.append(order)
+    return orders_list[::-1]
 
 
 def user_login(request):

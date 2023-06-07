@@ -3,7 +3,10 @@ from django.db import models
 
 from items.models import Item
 
+
 # Create your models here.
+
+
 class UserAddress(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     country = models.CharField(max_length=56)
@@ -11,6 +14,7 @@ class UserAddress(models.Model):
     postal = models.IntegerField()
     street = models.CharField(max_length=128)
     number = models.CharField(max_length=10)
+
 
 class Order(models.Model):
     STATUSES = [
@@ -20,7 +24,6 @@ class Order(models.Model):
         ("delivery", "in delivery"),
         ("shipped", "shipped")
     ]
-
     user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     date = models.DateTimeField()
     status = models.CharField(choices=STATUSES, max_length=16, default=STATUSES[0])
@@ -32,6 +35,7 @@ class Order(models.Model):
     street = models.CharField(max_length=128)
     number = models.CharField(max_length=10)
 
+    
 class OrderedItems(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     item_id = models.ForeignKey(Item, on_delete=models.DO_NOTHING)

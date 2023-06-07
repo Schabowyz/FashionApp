@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .helpers import user_login, user_logout, user_register, get_user_address, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account
 from .models import UserAddress
 
 
@@ -39,7 +39,8 @@ def renew_password(request, uidb64, token):
 @login_required
 def profile(request):
     return render(request, "user/profile.html", {
-        "user_address": get_user_address(request)
+        "user_address": get_user_address(request),
+        "orders": get_user_orders(request)
     })
 
 @login_required

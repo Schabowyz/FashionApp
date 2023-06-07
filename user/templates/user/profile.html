@@ -6,74 +6,248 @@
 
 {% block body %}
 
-    <br><br>
-    <h1>This is a profile page</h1>
-    <ul>
-        <li>email: {{ user.email }}</li>
-        <li>name: {{ user.first_name }}</li>
-        <li>surname: {{ user.last_name }}</li>
-    </ul>
+    <style>
+        
+        /* NAVBAR */
+        .navbar-space {
+            width: 100%;
+            height: 90px;
+            background-color: transparent;
+        }
+        .custom-transparent {
+            background-color: rgb(0, 0, 0);
+        }
+        .custom-almost-transparent {
+            background-color: rgb(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
 
-    {% if address %}
-        <ul>
-            <li>{{ address.street }} {{ address.number }}</li>
-            <li>{{ address.postal }}, {{ address.city }}</li>
-            <li>{{ address.country }}</li>
-        </ul>
-    {% endif %}
+        /* USER EDIT BUTTON */
+        .edit-button {
+            border: none;
+            background-color: transparent;
+            float: right;
+        }
 
-    <h4>Change information</h4>
-    <form action="{% url 'user:info' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input class="form-control" type="email" name="email" placeholder="first name" required="required" value="{{ request.user.email }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="first_name" placeholder="first name" required="required" value="{{ user.first_name }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="last_name" placeholder="last name" required="required" value="{{ user.last_name }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="country" placeholder="country" required="required" value="{{ user_address.country }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="city" placeholder="city" required="required" value="{{ user_address.city }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="postal" placeholder="postal" required="required" value="{{ user_address.postal }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="street" placeholder="street" required="required" value="{{ user_address.street }}">
-        </div>
-        <div class="mb-3">
-            <input class="form-control" type="text" name="number" placeholder="number" required="required" value="{{ user_address.number }}">
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-secondary">submit changes</button>
-        </div>
-    </form>
+        /* HIDE ARROWS IN NUMBER INPUT */
+        /* Chrome, Safari, Edge, Opera */
+        .no-arrows::-webkit-outer-spin-button,
+        .no-arrows::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        .no-arrows[type=number] {
+            -moz-appearance: textfield;
+        }
 
-    <h4>Change password</h4>
-    <form action="{% url 'user:password' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input class="form-control" type="password" name="password" placeholder="password" required="required">
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-secondary">submit changes</button>
-        </div>
-    </form>
 
-    <h4>Delete account</h4>
-    <form action="{% url 'user:delete' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+        .margin-left {
+            margin-left: 10px;
+        }
+
+
+        .order-card {
+            border-color: black;
+            border-style: none;
+            border-width: 1px;
+            padding: 10px;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table td, table th {
+            border: none;
+            padding: 8px;
+        }
+
+        table tr:nth-child(even){background-color: #f2f2f2;}
+
+        table tr:hover {background-color: #ddd;}
+
+
+        .card {
+            border: none;
+        }
+
+    </style>
+
+
+    <div class="navbar-space"></div>
+        
+    <div class="container">
+        <div class="row">
+            <h7>PROFILE PAGE</h7><br><br>
         </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-secondary">submit changes</button>
+        <div class="row">
+            <div class="col-lg-3 order-1">
+                <div class="flex">
+                    <!-- USER INFO -->
+                    <div>
+                        <p>
+                            <h7>INFORMATION:</h7>
+                            <button class="edit-button" type="button" data-bs-toggle="modal" data-bs-target="#modal_info">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </button>
+                        </p>
+                    </div>
+                    <div class="margin-left">
+                        {{ request.user.first_name }} {{ request.user.last_name }}<br>
+                        {{ request.user.email }}
+                    </div>
+                    <br><hr class="dropdown-divider"><br>
+                    <!-- USER ADDRESS -->
+                    <div>
+                        <p><h7>ADDRESS:</h7>
+                            <button class="edit-button" type="button" data-bs-toggle="modal" data-bs-target="#modal_address">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </button>
+                        </p>
+                    </div>
+                    <div class="margin-left">
+                        {{ user_address.street }} {{ user_address.number }}<br>
+                        {{ user_address.postal }} {{ user_address.city }}<br>
+                        {{ user_address.country }}
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+
+            <div class="col-lg-9 top-padding order-2">
+                <div>
+                    <p><h7>ORDER HISTORY:</h7></p>
+                </div>
+                <hr class="dropdown-divider">
+                {% for order in orders %}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td scope="col">{{ order.order_info.id }}</td>
+                            <td scope="col">{{ order.order_info.first_name }} {{ order.order_info.last_name }}</td>
+                            <td scope="col">{{ order.order_info.date }}</td>
+                            <td scope="col">
+                                <a data-bs-toggle="collapse" href="#collapse{{ order.order_info.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ order.order_info.id }}">
+                                    more info
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="collapse" id="collapse{{ order.order_info.id }}">
+                    <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                    </div>
+                </div>
+                <hr class="dropdown-divider">
+                {% endfor %}
+            </div>
+
         </div>
-    </form>
+    </div>
+
+
+ 
+
+
+      
+
+
+    <!-- INFO MODAL -->
+    <div class="modal fade" id="modal_info" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">USER INFORMATION</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="input-first_name" class="form-label">first name:</label>
+                        <input id="input-first_name" type="text" class="form-control" name="first_name" placeholder="first name" value="{{ request.user.first_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-last_name" class="form-label">last name:</label>
+                        <input id="input-last_name" type="text" class="form-control" name="last_name" placeholder="last name" value="{{ request.user.last_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-email" class="form-label">email address:</label>
+                        <input id="input-email" type="email" class="form-control" name="email" placeholder="email address" value="{{ request.user.email }}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- ADDRESS MODAL -->
+    <div class="modal fade" id="modal_address" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">ADDRESS INFORMATION</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="input-street" class="form-label">street:</label>
+                        <input id="input-street" type="text" class="form-control" name="street" placeholder="street" value="{{ user_address.street }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-number" class="form-label">house number:</label>
+                        <input id="input-number" type="text" class="form-control" name="number" placeholder="house number" value="{{ user_address.number }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-postal" class="form-label">postal code:</label>
+                        <input id="input-postal" type="number" class="form-control no-arrows" name="postal" placeholder="postal code" value="{{ user_address.postal }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-city" class="form-label">city:</label>
+                        <input id="input-city" type="text" class="form-control" name="city" placeholder="city" value="{{ user_address.city }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-country" class="form-label">country:</label>
+                        <input id="input-country" type="text" class="form-control" name="country" placeholder="country" value="{{ user_address.country }}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
 {% endblock %}
+
+
+{% for order in orders %}
+<ul>
+    <li>{{ order.order_info.date }}</li>
+    <li>{{ order.order_info.status }}</li>
+    <li>{{ order.order_items }}</li>
+    <ul>
+        {% for item in order.order_items %}
+            <li>{{ item.quantity }}</li>
+            <li>{{ item.price_piece }}</li>
+            <li>{{ item.item_id.category }}</li>
+        {% endfor %}
+    </ul>
+</ul>
+{% endfor %}
