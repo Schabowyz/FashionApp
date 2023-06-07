@@ -35,9 +35,19 @@ class Order(models.Model):
     street = models.CharField(max_length=128)
     number = models.CharField(max_length=10)
 
+    def overall_price(self):
+        price = 0.00
+        items = OrderedItems.objects.values_list("quantity", "price_piece").filter(order_id=self.id)
+        for item in items:
+            price += item[0] * item[1]
+        return price
+
     
 class OrderedItems(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     item_id = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
     quantity = models.IntegerField()
     price_piece = models.FloatField()
+    
+    def overall_price(self):
+        return self.quantity * self.price_piece

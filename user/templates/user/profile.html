@@ -6,76 +6,7 @@
 
 {% block body %}
 
-    <style>
-        
-        /* NAVBAR */
-        .navbar-space {
-            width: 100%;
-            height: 90px;
-            background-color: transparent;
-        }
-        .custom-transparent {
-            background-color: rgb(0, 0, 0);
-        }
-        .custom-almost-transparent {
-            background-color: rgb(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* USER EDIT BUTTON */
-        .edit-button {
-            border: none;
-            background-color: transparent;
-            float: right;
-        }
-
-        /* HIDE ARROWS IN NUMBER INPUT */
-        /* Chrome, Safari, Edge, Opera */
-        .no-arrows::-webkit-outer-spin-button,
-        .no-arrows::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        /* Firefox */
-        .no-arrows[type=number] {
-            -moz-appearance: textfield;
-        }
-
-
-        .margin-left {
-            margin-left: 10px;
-        }
-
-
-        .order-card {
-            border-color: black;
-            border-style: none;
-            border-width: 1px;
-            padding: 10px;
-        }
-
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        table td, table th {
-            border: none;
-            padding: 8px;
-        }
-
-        table tr:nth-child(even){background-color: #f2f2f2;}
-
-        table tr:hover {background-color: #ddd;}
-
-
-        .card {
-            border: none;
-        }
-
-    </style>
-
+    <link href="{% static 'profile/styles.css' %}" rel="stylesheet">
 
     <div class="navbar-space"></div>
         
@@ -98,11 +29,23 @@
                             </button>
                         </p>
                     </div>
-                    <div class="margin-left">
-                        {{ request.user.first_name }} {{ request.user.last_name }}<br>
-                        {{ request.user.email }}
+                    <div>
+                        <table>
+                            <tr>
+                                <td>name:</td>
+                                <td class="text-end">{{ request.user.first_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>surname:</td>
+                                <td class="text-end">{{ request.user.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>email:</td>
+                                <td class="text-end">{{ request.user.email }}</td>
+                            </tr>
+                        </table>
                     </div>
-                    <br><hr class="dropdown-divider"><br>
+                    <hr class="dropdown-divider">
                     <!-- USER ADDRESS -->
                     <div>
                         <p><h7>ADDRESS:</h7>
@@ -114,12 +57,28 @@
                             </button>
                         </p>
                     </div>
-                    <div class="margin-left">
-                        {{ user_address.street }} {{ user_address.number }}<br>
-                        {{ user_address.postal }} {{ user_address.city }}<br>
-                        {{ user_address.country }}
-                    </div>
-                    <br><br>
+                    <table>
+                        <tr>
+                            <td>street:</td>
+                            <td class="text-end">{{ user_address.street }}</td>
+                        </tr>
+                        <tr>
+                            <td>house number:</td>
+                            <td class="text-end">{{ user_address.number }}</td>
+                        </tr>
+                        <tr>
+                            <td>postal code:</td>
+                            <td class="text-end">{{ user_address.postal }}</td>
+                        </tr>
+                        <tr>
+                            <td>city:</td>
+                            <td class="text-end">{{ user_address.city }}</td>
+                        </tr>
+                        <tr>
+                            <td>country:</td>
+                            <td class="text-end">{{ user_address.country }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
@@ -129,38 +88,73 @@
                 </div>
                 <hr class="dropdown-divider">
                 {% for order in orders %}
-                <table>
-                    <tbody>
-                        <tr>
-                            <td scope="col">{{ order.order_info.id }}</td>
-                            <td scope="col">{{ order.order_info.first_name }} {{ order.order_info.last_name }}</td>
-                            <td scope="col">{{ order.order_info.date }}</td>
-                            <td scope="col">
-                                <a data-bs-toggle="collapse" href="#collapse{{ order.order_info.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ order.order_info.id }}">
-                                    more info
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="collapse" id="collapse{{ order.order_info.id }}">
-                    <div class="card card-body">
-                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td scope="col">id-{{ order.order_info.id }}</td>
+                                <td scope="col">{{ order.order_info.first_name }} {{ order.order_info.last_name }}</td>
+                                <td scope="col">{{ order.order_info.date }}</td>
+                                <td scope="col">{{ order.order_info.overall_price|floatformat:2 }} €</td>
+                                <td scope="col">
+                                    <a data-bs-toggle="collapse" href="#collapse{{ order.order_info.id }}" role="button" aria-expanded="false" aria-controls="collapse{{ order.order_info.id }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="collapse" id="collapse{{ order.order_info.id }}">
+                        <div class="card card-body">
+                            {% for item in order.order_items %}
+                                <hr class="dropdown-divider">
+                                <div class="row">
+                                    <div class="col margins">
+                                        <div class="row">
+                                            <table>
+                                                <tr>
+                                                    <td>item:</td>
+                                                    <td class="text-end"><a class="no-decorator" href="{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>gender:</td>
+                                                    <td class="text-end">{{ item.item_id.gender }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>category:</td>
+                                                    <td class="text-end">{{ item.item_id.category }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>quantity:</td>
+                                                    <td class="text-end">{{ item.quantity }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>piece price:</td>
+                                                    <td class="text-end">{{ item.price_piece|floatformat:2 }} €</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>overall price:</td>
+                                                    <td class="text-end">{{ item.overall_price|floatformat:2 }} €</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col item-image">
+                                        <a href="{% url 'items:product' item_id=item.item_id.id %}">
+                                            <img src="{{ item.item_id.image.url }}" alt="{{ item.item_id.name }}">
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-                <hr class="dropdown-divider">
+                    <hr class="dropdown-divider">
                 {% endfor %}
             </div>
 
         </div>
     </div>
-
-
- 
-
-
-      
-
 
     <!-- INFO MODAL -->
     <div class="modal fade" id="modal_info" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -235,19 +229,3 @@
     </div>
 
 {% endblock %}
-
-
-{% for order in orders %}
-<ul>
-    <li>{{ order.order_info.date }}</li>
-    <li>{{ order.order_info.status }}</li>
-    <li>{{ order.order_items }}</li>
-    <ul>
-        {% for item in order.order_items %}
-            <li>{{ item.quantity }}</li>
-            <li>{{ item.price_piece }}</li>
-            <li>{{ item.item_id.category }}</li>
-        {% endfor %}
-    </ul>
-</ul>
-{% endfor %}
