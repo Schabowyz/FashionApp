@@ -5,21 +5,59 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-    
-    <br><br>
-    <h1>This is a login page</h1>
-    <form action="{% url 'user:login' %}" method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <input class="form-control" type="email" name="username" placeholder="email address" required="required" autofocus>
+
+    <link href="{% static 'login/styles.css' %}" rel="stylesheet">
+
+    <!-- BACKGROUND -->
+    <div class="bg">
+        <div class="bg-wrapper">
+            <img src="https://images.pexels.com/photos/3109603/pexels-photo-3109603.jpeg">
         </div>
-        <div class="mb-3">
-            <input class="form-control" type="password" name="password" placeholder="password" required="required">
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="panel">
+            <h4>SIGN IN</h4><br>
+            <form action="{% url 'user:login' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="username" placeholder="email address">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" aria-describedby="passwordHelp" name="password" placeholder="password">
+                </div><br><br>
+                <div class="svg-wrapper">
+                    <svg height="60" width="100%">
+                            <rect class="shape" height="60" width="100%">
+                    </svg>
+                    <div><button class="text" type="submit">SIGN IN</button></div>
+                </div>
+            </form>
+            <br>
+            <div class="questions">
+                <p><a class="decorator" href="{% url 'user:register' %}">Not a user yet? Sign up now!</a></p>
+                <p><a class="decorator" href="{% url 'user:request_renew' %}">Forgot your password?</a></p>
+            </div>
         </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-secondary">login</button>
-        </div>
-    </form>
-    <a href="{% url 'user:request_renew' %}">Forgout your password?</a>
+    </div>
 
 {% endblock %}
+
+
+
+<br><br>
+<h1>This is a login page</h1>
+<form action="{% url 'user:login' %}" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <input class="form-control" type="email" name="username" placeholder="email address" required="required" autofocus>
+    </div>
+    <div class="mb-3">
+        <input class="form-control" type="password" name="password" placeholder="password" required="required">
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-secondary">login</button>
+    </div>
+</form>
+<a href="{% url 'user:request_renew' %}">Forgout your password?</a>
