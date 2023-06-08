@@ -6,7 +6,6 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Prefetch
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -39,7 +38,7 @@ def user_login(request):
     user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
     if user:
         login(request, user)
-        messages.success(request, "you're logged in")
+        messages.success(request, "you're logged in now")
         return True
     messages.error(request, "invalid login credentials")
     return False
@@ -47,7 +46,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    messages.success(request, "you're logged out")
+    messages.success(request, "you're logged out now")
     return
 
 
