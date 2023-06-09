@@ -1,0 +1,103 @@
+{% extends "layout_main.html" %}
+
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+
+{% block body %}
+
+    <!-- <link href="{% static 'user/cart.css' %}" rel="stylesheet">  -->
+
+    <style>
+        /* NAVBAR */
+        .navbar-space {
+            width: 100%;
+            height: 90px;
+            background-color: transparent;
+        }
+        .custom-transparent {
+            background-color: rgb(0, 0, 0);
+        }
+        .custom-almost-transparent {
+            background-color: rgb(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+
+        .text-end {
+            text-align: end;
+        }
+        .item-image {
+            overflow: hidden;
+        }
+        .item-image a {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .item-image a img {
+            position: absolute;
+            max-width: inherit;
+            max-height: inherit;
+            height: inherit;
+            width: inherit;
+            object-fit: cover;
+        }
+
+
+        /* INNER ORDER TABLE */
+        .margins {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+    
+    <div class="navbar-space"></div>
+
+    <div class="container">
+        {% for item in cart %}
+        <div class="row">
+            <div class="col margins">
+                <div class="row">
+                    <table>
+                        <tr>
+                            <td>item:</td>
+                            <td class="text-end"><a class="no-decorator" href="{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
+                        </tr>
+                        <tr>
+                            <td>gender:</td>
+                            <td class="text-end">{{ item.item_id.gender }}</td>
+                        </tr>
+                        <tr>
+                            <td>category:</td>
+                            <td class="text-end">{{ item.item_id.category }}</td>
+                        </tr>
+                        <tr>
+                            <td>quantity:</td>
+                            <td class="text-end">{{ item.quantity }}</td>
+                        </tr>
+                        <tr>
+                            <td>piece price:</td>
+                            <td class="text-end">{{ item.price_piece|floatformat:2 }} €</td>
+                        </tr>
+                        <tr>
+                            <td>overall price:</td>
+                            <td class="text-end">{{ item.overall_price|floatformat:2 }} €</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col item-image">
+                <a href="{% url 'items:product' item_id=item.item_id.id %}">
+                    <img src="{{ item.item_id.image.url }}" alt="{{ item.item_id.name }}">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}

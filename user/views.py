@@ -44,9 +44,10 @@ def profile(request):
     })
 
 @login_required
-def orders(request):
+def cart(request):
+    return render(request, "user/cart.html")
 
-    return render(request, "user/orders.html")
+
 
 
 ########## FUNCTIONS ############

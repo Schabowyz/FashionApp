@@ -89,9 +89,6 @@ svg {
     -webkit-animation: 0.5s draw linear forwards;
     animation: 0.5s draw linear forwards;
 }
-.div-butt {
-    background-color: black;
-}
 button {
     border: none;
     background-color: transparent;

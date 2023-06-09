@@ -29,6 +29,7 @@ class Item(models.Model):
     quantity = models.IntegerField()
     image = models.ImageField(upload_to="images")
     visibility = models.BooleanField(default=True)
+    current_price = models.FloatField(default=0)
 
 class Price(models.Model):
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)

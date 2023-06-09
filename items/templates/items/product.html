@@ -33,10 +33,10 @@
                     </div>
                     <br><hr class="dropdown-divider"><br><br><br>
                     <div class="svg-wrapper">
-                        <svg height="60" width="100%" xmlns="http://www.w3.org/2000/svg">
-                            <rect class="shape" height="60" width="100%" />
+                        <svg height="60" width="100%">
+                            <rect class="shape" height="60" width="100%">
                         </svg>
-                            <div class="text">BUY NOW</div>
+                        <div class="text"><button data-product="{{ item.id }}" data-action="add" id="update-cart">BUY NOW</button></div>
                     </div>
                 </div>
             </div>
@@ -45,6 +45,5 @@
             </div>
         </div>
     </div>
-    
 
 {% endblock %}
