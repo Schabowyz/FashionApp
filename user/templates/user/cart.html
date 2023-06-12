@@ -69,6 +69,91 @@
             color: black;
         }
 
+
+        /* BUY BUTTON */
+        svg {
+            align-items: center;
+        }
+        .svg-wrapper {
+            height: 60px;
+            margin: 0 auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+        .shape {
+            fill: transparent;
+            stroke-dasharray: 100% 200%;
+            stroke-dashoffset: -190%;
+            stroke-width: 8px;
+            stroke: #000000;
+        }
+        @media (max-width: 768px) {
+            .shape {
+                stroke-dashoffset: -180%;
+            }
+        }
+        @media (max-width: 992px) {
+            .shape {
+                stroke-dashoffset: -175%;
+            }
+        }
+        .text {
+            text-align: center;
+            color: #000000;
+            font-size: 22px;
+            letter-spacing: 8px;
+            line-height: 32px;
+            position: relative;
+            top: -48px;
+        }
+        @keyframes draw {
+            100% {
+                stroke-dasharray: 320%;
+                stroke-dashoffset: 0;
+                stroke-width: 2px;
+            }
+        }
+        @media (min-width: 992px) {
+            @keyframes draw {
+                100% {
+                    stroke-dasharray: 350%;
+                    stroke-dashoffset: 0;
+                    stroke-width: 2px;
+                }
+            }
+        }
+        .svg-wrapper:hover .shape {
+            -webkit-animation: 0.5s draw linear forwards;
+            animation: 0.5s draw linear forwards;
+        }
+
+
+        .order-input {
+            border: none;
+            border-radius: 0px;
+            border-bottom: 1px solid rgb(156, 156, 156);
+        }
+
+
+        /* HIDE ARROWS IN NUMBER INPUT */
+        /* Chrome, Safari, Edge, Opera */
+        .no-arrows::-webkit-outer-spin-button,
+        .no-arrows::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        .no-arrows[type=number] {
+            -moz-appearance: textfield;
+            border: none;
+            border-radius: 0px;
+            border-bottom: 1px solid rgb(156, 156, 156);
+        }
+
+
+
     </style>
 
     <div class="navbar-space"></div>
@@ -88,15 +173,74 @@
                     </div>
                     <hr class="dropdown-divider">
                     <div>
-                        
-                        FORM Z ADRESEM
-
+                        {% if request.user.is_authenticated %}
+                            <div>
+                                User: {{ request.user.email }}
+                            </div>
+                            <form>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="last_name" value="{{ request.user.last_name }}" placeholder="last name">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="street" value="{{ user_address.street }}" placeholder="street">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input no-arrows" name="number" value="{{ user_address.number }}" placeholder="house number">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="city" value="{{ user_address.city }}" placeholder="city">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="number" class="form-control order-input" name="postal" value="{{ user_address.postal }}" placeholder="postal code">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="country" value="{{ user_address.country }}" placeholder="country">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember">
+                                    <label class="form-check-label" for="remember">remember my address</label>
+                                </div>
+                            </form>
+                        {% else %}
+                            <form>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="email" placeholder="email address">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="first_name" placeholder="first name">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="last_name" placeholder="last name">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="street" placeholder="street">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input no-arrows" name="number" placeholder="house number">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="city" placeholder="city">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="number" class="form-control order-input" name="postal" placeholder="postal code">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="country" placeholder="country">
+                                </div>
+                            </form>
+                        {% endif %}
                     </div>
-                    <hr class="dropdown-divider">
                     <!-- BUY BUTTON -->
-                    
-                        BUY BUTTON
-
+                    <br><br><br>
+                    <div class="svg-wrapper">
+                        <svg height="60" width="100%">
+                            <rect class="shape" height="60" width="100%">
+                        </svg>
+                        <div class="text"><button data-product="{{ item.id }}" data-action="add" class="update-cart">CHECKOUT</button></div>
+                    </div>
                 </div>
             </div>
 
@@ -107,6 +251,13 @@
                 <hr class="dropdown-divider">
                 <table>
                     <tbody>
+                        <tr>
+                            <td scope="col">product:</td>
+                            <td scope="col"></td>
+                            <td scope="col">quantity:</td>
+                            <td scope="col">piece price:</td>
+                            <td scope="col">price:</td>
+                        </tr>
                         {% for item in cart.0 %}
                             <tr>
                                 <td scope="col" class="image-wrapper">

@@ -10,7 +10,10 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from .models import UserAddress, Order, OrderedItems
+import json
+
+from .models import UserAddress, Order, OrderedItems, Cart
+from items.models import Item
 from .tokens import account_activation_token
 
 
@@ -169,3 +172,32 @@ def delete_account(request):
     else:
         messages.error(request, "invalid password")
         return False
+    
+
+def get_cart_info(request):
+    if request.user.is_authenticated:
+        cart = Cart.get_cart_items(request)
+        price = Cart.order_overall_price(request)
+        user_address = UserAddress.objects.get(user_id=request.user.id)
+    else:
+        try:
+            cart_cookie = json.loads(request.COOKIES["cart"])
+        except KeyError:
+            cart_cookie = {}
+        
+        cart = []
+        quantity = 0
+        price = 0
+        for key, value in cart_cookie.items():
+            item = {}
+            item["item_id"] = Item.objects.get(id=int(key))
+            item["quantity"] = value["quantity"]
+            item["item_overall_price"] = item["quantity"] * item["item_id"].current_price
+            cart.append(item)
+            price += item["item_overall_price"]
+            quantity += item["quantity"]
+            print(item["quantity"])
+        cart = (cart, quantity)
+        user_address = None
+
+    return {"cart": cart, "price": price, "user_address": user_address}

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+import json
+
 from items.models import Item
 
 
@@ -59,7 +61,25 @@ class Cart(models.Model):
     quantity = models.IntegerField(default=0)
 
     def get_cart_items(request):
-        return (Cart.objects.select_related("item_id").filter(user_id=request.user.id), Cart.get_cart_items_quantity(request))
+        if request.user.is_authenticated:
+            return (Cart.objects.select_related("item_id").filter(user_id=request.user.id), Cart.get_cart_items_quantity(request))
+        else:
+            try:
+                cart_cookie = json.loads(request.COOKIES["cart"])
+            except KeyError:
+                cart_cookie = {}
+
+            cart = []
+            quantity = 0
+            for key, value in cart_cookie.items():
+                item = {}
+                item["item_id"] = Item.objects.get(id=int(key))
+                item["quantity"] = value["quantity"]
+                cart.append(item)
+                quantity += item["quantity"]
+            
+            return (cart, quantity)
+
     
     def get_cart_items_quantity(request):
         quantity = 0

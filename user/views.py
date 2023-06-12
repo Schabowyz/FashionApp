@@ -3,8 +3,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account
-from .models import Cart
+import json
+
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account, get_cart_info
+from .models import Cart, UserAddress
+from items.models import Item
 
 
 ########## VIEWS ############
@@ -51,12 +54,8 @@ def profile(request):
         "cart": Cart.get_cart_items(request)
     })
 
-@login_required
 def cart(request):
-    return render(request, "user/cart.html", {
-        "cart": Cart.get_cart_items(request),
-        "price": Cart.order_overall_price(request)
-    })
+    return render(request, "user/cart.html", get_cart_info(request))
 
 
 
