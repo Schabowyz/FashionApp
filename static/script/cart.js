@@ -1,17 +1,19 @@
-var updateBtn = document.getElementById("update-cart")
+var updateBtns = document.getElementsByClassName("update-cart")
 
-updateBtn.addEventListener("click", function(){
-    var productId = this.dataset.product
-    var action = this.dataset.action
-    console.log("productId:", productId, "action:", action)
+for (var i = 0; i < updateBtns.length; i++) {
+    updateBtns[i].addEventListener("click", function(){
+        var productId = this.dataset.product
+        var action = this.dataset.action
+        console.log("productId:", productId, "action:", action)
 
-    console.log("USER:", user)
-    if(user == "AnonymousUser"){
-        console.log("Not logged in")
-    }else{
-        updateUserOrder(productId, action)
-    }
-})
+        console.log("USER:", user)
+        if(user == "AnonymousUser"){
+            console.log("Not logged in")
+        }else{
+            updateUserOrder(productId, action)
+        }
+    })
+}
 
 function updateUserOrder(productId, action){
     console.log("User is logged in, sending data")
@@ -36,5 +38,6 @@ function updateUserOrder(productId, action){
 
     .then((data) =>{
         console.log("data:", data)
+        location.reload()
     })
 }

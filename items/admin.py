@@ -4,7 +4,7 @@ from .models import Item, Price
 
 # Register your models here.
 class ItemAdmin(admin.ModelAdmin):
-    fields = ("name", "gender", "category", "description", "quantity", "image", "visibility")
+    fields = ("name", "gender", "category", "description", "quantity", "image", "visibility", "current_price")
     list_display =["id", "name", "gender", "category"]
     search_fields = ["name"]
     order = ("id", "name")

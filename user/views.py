@@ -54,7 +54,8 @@ def profile(request):
 @login_required
 def cart(request):
     return render(request, "user/cart.html", {
-        "cart": Cart.get_cart_items(request)
+        "cart": Cart.get_cart_items(request),
+        "price": Cart.order_overall_price(request)
     })
 
 

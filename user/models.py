@@ -59,4 +59,20 @@ class Cart(models.Model):
     quantity = models.IntegerField(default=0)
 
     def get_cart_items(request):
-        return Cart.objects.select_related("item_id").filter(user_id=request.user.id)
+        return (Cart.objects.select_related("item_id").filter(user_id=request.user.id), Cart.get_cart_items_quantity(request))
+    
+    def get_cart_items_quantity(request):
+        quantity = 0
+        for item in Cart.objects.filter(user_id=request.user.id):
+            quantity += item.quantity
+        return quantity
+    
+    def item_overall_price(self):
+        return self.quantity*self.item_id.current_price
+    
+    def order_overall_price(request):
+        items = Cart.objects.filter(user_id=request.user.id)
+        price = 0.00
+        for item in items:
+            price += item.item_overall_price()
+        return price

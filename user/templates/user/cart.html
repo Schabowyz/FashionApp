@@ -9,6 +9,7 @@
     <!-- <link href="{% static 'user/cart.css' %}" rel="stylesheet">  -->
 
     <style>
+
         /* NAVBAR */
         .navbar-space {
             width: 100%;
@@ -24,79 +25,123 @@
         }
 
 
-        .text-end {
-            text-align: end;
+        /* CHANGE AMOUNT BUTTON */
+        button {
+            border: none;
+            background-color: transparent;
+        }
+
+
+        /* ITEMS TABLE */
+        table {
+            word-wrap:break-word;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table td, table th {
+            border: none;
+            padding: 6px;
+            text-align: center;
+        }
+        table tr:hover {background-color: #eeeeee;}
+        svg {
+            color: black;
+        }
+        .image-wrapper {
+            width: 200px;
+            height: 100px;
+            padding-right: 1%;
         }
         .item-image {
             overflow: hidden;
-        }
-        .item-image a {
             height: 100%;
             width: 100%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .item-image a img {
-            position: absolute;
-            max-width: inherit;
-            max-height: inherit;
-            height: inherit;
-            width: inherit;
             object-fit: cover;
         }
 
-
-        /* INNER ORDER TABLE */
-        .margins {
-            margin-left: 10px;
-            margin-right: 10px;
+        /* DECORATOR REMOVAL */
+        .no-decorator {
+            text-decoration: none;
+            color: black;
         }
-    </style>
-    
-    <div class="navbar-space"></div>
+        .no-decorator:hover {
+            text-decoration: underline;
+            color: black;
+        }
 
+    </style>
+
+    <div class="navbar-space"></div>
+        
     <div class="container">
-        {% for item in cart %}
         <div class="row">
-            <div class="col margins">
-                <div class="row">
-                    <table>
-                        <tr>
-                            <td>item:</td>
-                            <td class="text-end"><a class="no-decorator" href="{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
-                        </tr>
-                        <tr>
-                            <td>gender:</td>
-                            <td class="text-end">{{ item.item_id.gender }}</td>
-                        </tr>
-                        <tr>
-                            <td>category:</td>
-                            <td class="text-end">{{ item.item_id.category }}</td>
-                        </tr>
-                        <tr>
-                            <td>quantity:</td>
-                            <td class="text-end">{{ item.quantity }}</td>
-                        </tr>
-                        <tr>
-                            <td>piece price:</td>
-                            <td class="text-end">{{ item.price_piece|floatformat:2 }} €</td>
-                        </tr>
-                        <tr>
-                            <td>overall price:</td>
-                            <td class="text-end">{{ item.overall_price|floatformat:2 }} €</td>
-                        </tr>
-                    </table>
+            <h7>CART PAGE</h7><br><br>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 order-1">
+                <div class="flex">
+                    <!-- ORDER INFO -->
+                    <div>
+                        <p>
+                            <h7>SHIPMENT:</h7>
+                        </p>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <div>
+                        
+                        FORM Z ADRESEM
+
+                    </div>
+                    <hr class="dropdown-divider">
+                    <!-- BUY BUTTON -->
+                    
+                        BUY BUTTON
+
                 </div>
             </div>
-            <div class="col item-image">
-                <a href="{% url 'items:product' item_id=item.item_id.id %}">
-                    <img src="{{ item.item_id.image.url }}" alt="{{ item.item_id.name }}">
-                </a>
+
+            <div class="col-lg-9 top-padding order-2">
+                <div>
+                    <p><h7>PRODUCTS:</h7></p>
+                </div>
+                <hr class="dropdown-divider">
+                <table>
+                    <tbody>
+                        {% for item in cart.0 %}
+                            <tr>
+                                <td scope="col" class="image-wrapper">
+                                    <img src="{{ item.item_id.image.url }}" class="item-image">
+                                </td>
+                                <td scope="col"><a class="no-decorator" href="{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
+                                <td scope="col">
+                                    <button data-product="{{ item.item_id.id }}" data-action="add" class="update-cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+                                        </svg>
+                                    </button>
+                                    {{ item.quantity }}
+                                    <button data-product="{{ item.item_id.id }}" data-action="remove" class="update-cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                                <td scope="col">{{ item.item_id.current_price|floatformat:2 }}€</td>
+                                <td scope="col">{{ item.item_overall_price|floatformat:2 }}€</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <th scope="col">TOTAL:</tH>
+                            <th scope="col">{{ price|floatformat:2 }}€</th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
         </div>
-        {% endfor %}
     </div>
     
 
