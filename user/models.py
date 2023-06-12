@@ -46,8 +46,17 @@ class Order(models.Model):
 class OrderedItems(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     item_id = models.ForeignKey(Item, on_delete=models.DO_NOTHING)
-    quantity = models.IntegerField()
-    price_piece = models.FloatField()
+    quantity = models.IntegerField(default=0)
+    price_piece = models.FloatField(default=1)
     
     def overall_price(self):
         return self.quantity * self.price_piece
+    
+
+class Cart(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+    def get_cart_items(request):
+        return Cart.objects.select_related("item_id").filter(user_id=request.user.id)

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account
-from .models import UserAddress
+from .models import Cart
 
 
 ########## VIEWS ############
@@ -13,19 +13,25 @@ def login_view(request):
     if request.method == "POST":
         if user_login(request):
             return HttpResponseRedirect(reverse("base:index"))
-    return render(request, "user/login.html")
+    return render(request, "user/login.html", {
+        "cart": Cart.get_cart_items(request)
+    })
 
 def register(request):
     if request.method == "POST":
         if user_register(request):
             return HttpResponseRedirect(reverse("base:index"))
-    return render(request, "user/register.html")
+    return render(request, "user/register.html", {
+        "cart": Cart.get_cart_items(request)
+    })
 
 def request_renew_password(request):
     if request.method == "POST":
         if renewEmail(request):
             return HttpResponseRedirect(reverse("base:index"))
-    return render(request, "user/request_renew_password.html")
+    return render(request, "user/request_renew_password.html", {
+        "cart": Cart.get_cart_items(request)
+    })
 
 def renew_password(request, uidb64, token):
     if request.method == "POST":
@@ -33,19 +39,23 @@ def renew_password(request, uidb64, token):
             return HttpResponseRedirect(reverse("user:login"))
     return render(request, "user/renew_password.html", {
         "uidb64": uidb64,
-        "token": token
+        "token": token,
+        "cart": Cart.get_cart_items(request)
     })
 
 @login_required
 def profile(request):
     return render(request, "user/profile.html", {
         "user_address": get_user_address(request),
-        "orders": get_user_orders(request)
+        "orders": get_user_orders(request),
+        "cart": Cart.get_cart_items(request)
     })
 
 @login_required
 def cart(request):
-    return render(request, "user/cart.html")
+    return render(request, "user/cart.html", {
+        "cart": Cart.get_cart_items(request)
+    })
 
 
 
