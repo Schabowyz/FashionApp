@@ -25,7 +25,7 @@ function addCookieItem(productId, action) {
         }else {
             cart[productId]["quantity"] += 1
         }
-    }else if(asction == remove) {
+    }else if(action == "remove") {
         cart[productId]["quantity"] -= 1
 
         if(cart[productId]["quantity"] <= 0) {

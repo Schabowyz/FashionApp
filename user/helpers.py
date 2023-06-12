@@ -40,7 +40,17 @@ def get_user_orders(request):
 def user_login(request):
     user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
     if user:
+        cookie_cart = get_cart_info(request)
+        print(cookie_cart)
         login(request, user)
+        for item in cookie_cart["cart"][0]:
+            print(item)
+            cart = Cart.objects.get_or_create(user_id=User.objects.get(id=request.user.id), item_id=item["item_id"])
+            if cart[1] == True:
+                cart[0].quantity = item["quantity"]
+            elif cart[1] == False:
+                cart[0].quantity += item["quantity"]
+            cart[0].save()
         messages.success(request, "you're logged in now")
         return True
     messages.error(request, "invalid login credentials")

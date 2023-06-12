@@ -15,10 +15,10 @@ from items.models import Item
 def login_view(request):
     if request.method == "POST":
         if user_login(request):
-            return HttpResponseRedirect(reverse("base:index"))
-    return render(request, "user/login.html", {
-        "cart": Cart.get_cart_items(request)
-    })
+            response = HttpResponseRedirect(reverse("base:index"))
+            response.delete_cookie("cart")
+            return response
+    return render(request, "user/login.html", {"cart": Cart.get_cart_items(request)})
 
 def register(request):
     if request.method == "POST":

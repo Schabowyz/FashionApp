@@ -176,7 +176,7 @@
                         {% if request.user.is_authenticated %}
                             <div>
                                 User: {{ request.user.email }}
-                            </div>
+                            </div><br>
                             <form>
                                 <div class="mb-3">
                                     <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name">
