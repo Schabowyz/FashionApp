@@ -6,10 +6,13 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+import datetime
 import json
 
 from .models import UserAddress, Order, OrderedItems, Cart
@@ -211,3 +214,43 @@ def get_cart_info(request):
         user_address = None
 
     return {"cart": cart, "price": price, "user_address": user_address}
+
+
+def buy_user(request):
+    # Checks if price is correct
+    price = round(float(json.loads(request.body)["price"]), 2)
+    price_check = Cart.order_overall_price(request)
+    if price != round(price_check, 2):
+        messages.error(request, "Wrong payment amount")
+        return HttpResponseRedirect(reverse("user:cart"))
+    
+    # Creates an entry in orders db
+    user_id = User.objects.get(id=request.user.id)
+    order = Order(
+        user_id = user_id,
+        email = request.session["user_info"]["email"],
+        date = datetime.datetime.now(),
+        status = "pending",
+        first_name = request.session["user_info"]["first_name"],
+        last_name = request.session["user_info"]["last_name"],
+        country = request.session["user_info"]["country"],
+        city = request.session["user_info"]["city"],
+        postal = request.session["user_info"]["postal"],
+        street = request.session["user_info"]["street"],
+        number = request.session["user_info"]["number"],
+    )
+    order.save()
+
+    # Add cart items to order
+    for item in Cart.get_cart_items(request)[0]:
+        listed_item = Item.objects.get(id=item.item_id.id)
+        ordered_item = OrderedItems(order_id=order, item_id=item.item_id, quantity=item.quantity, price_piece=listed_item.current_price)
+        ordered_item.save()
+
+    # Delete items from cart
+    cart = Cart.objects.filter(user_id=request.user.id)
+    cart.delete()
+
+
+def buy_guest(reqeust):
+    return "User not logged in"

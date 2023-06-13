@@ -93,3 +93,12 @@ svg {
     text-decoration: underline;
     color: black;
 }
+
+
+/* FIXED TABLE COLUMNS WIDTH */
+.fixed-width-big {
+    width: 150px;
+}
+.fixed-width-small {
+    width: 70px;
+}

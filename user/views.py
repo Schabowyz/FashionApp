@@ -3,10 +3,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-import json
-
-from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account, get_cart_info
-from .models import Cart, Order
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account, get_cart_info, buy_user, buy_guest
+from .models import Cart
 
 
 ########## VIEWS ############
@@ -54,10 +52,29 @@ def profile(request):
     })
 
 def cart(request):
+    if request.method == "POST":
+        request.session["user_info"] = {
+            "email": request.POST.get("email", False),
+            "first_name": request.POST["first_name"],
+            "last_name": request.POST["last_name"],
+            "street": request.POST["street"],
+            "number": request.POST["number"],
+            "city": request.POST["city"],
+            "postal": request.POST["postal"],
+            "country": request.POST["country"]
+        }
+        return HttpResponseRedirect(reverse("user:order"))
     return render(request, "user/cart.html", get_cart_info(request))
 
 def order(request):
     return render(request, "user/order.html", get_cart_info(request))
+
+def create_order(request):
+    if request.user.is_authenticated:
+        buy_user(request)
+    else:
+        buy_guest(request)
+    return JsonResponse("Order was created", safe=False)
 
 
 

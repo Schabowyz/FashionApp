@@ -176,7 +176,7 @@
                         </p>
                     </div>
                     <hr class="dropdown-divider">
-                    <form action="{% url 'user:order' %}" method="post">
+                    <form action="{% url 'user:cart' %}" method="post">
                         {% csrf_token %}
                         <div>
                             {% if request.user.is_authenticated %}

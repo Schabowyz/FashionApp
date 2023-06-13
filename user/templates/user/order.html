@@ -63,8 +63,68 @@
         }
 
 
+                /* BUY BUTTON */
+                svg {
+            align-items: center;
+        }
+        .svg-wrapper {
+            height: 60px;
+            margin: 0 auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+        .shape {
+            fill: transparent;
+            stroke-dasharray: 100% 200%;
+            stroke-dashoffset: -190%;
+            stroke-width: 8px;
+            stroke: #000000;
+        }
+        @media (max-width: 768px) {
+            .shape {
+                stroke-dashoffset: -180%;
+            }
+        }
+        @media (max-width: 992px) {
+            .shape {
+                stroke-dashoffset: -175%;
+            }
+        }
+        .text {
+            text-align: center;
+            color: #000000;
+            font-size: 22px;
+            letter-spacing: 8px;
+            line-height: 32px;
+            position: relative;
+            top: -48px;
+        }
+        @keyframes draw {
+            100% {
+                stroke-dasharray: 320%;
+                stroke-dashoffset: 0;
+                stroke-width: 2px;
+            }
+        }
+        @media (min-width: 992px) {
+            @keyframes draw {
+                100% {
+                    stroke-dasharray: 350%;
+                    stroke-dashoffset: 0;
+                    stroke-width: 2px;
+                }
+            }
+        }
+        .svg-wrapper:hover .shape {
+            -webkit-animation: 0.5s draw linear forwards;
+            animation: 0.5s draw linear forwards;
+        }
 
     </style>
+
+
 
     <div class="navbar-space"></div>
         
@@ -87,8 +147,11 @@
                     </div>
                     <!-- BUY BUTTON -->
                     <br><br><br>
-                    <div>
-                        GUZIKI PAYPALA
+                    <div class="svg-wrapper">
+                        <svg height="60" width="100%">
+                            <rect class="shape" height="60" width="100%">
+                        </svg>
+                        <div class="text"><button id="orderBtn" data-bs-toggle="modal" data-bs-target="#paymentModal">ORDER</button></div>
                     </div>
                 </div>
             </div>
@@ -131,5 +194,45 @@
 
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                PAYPAL BUTTON 1<br>
+                PAYPAL BUTTON 2<br>
+                PAYPAL BUTTON 3<br>
+                paypal coment<br>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+
+        var orderBtn = document.getElementById("orderBtn")
+        orderBtn.addEventListener("click", function(){
+
+            var url = "/user/create_order"
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({
+                    "price": "{{ price }}"
+                })
+            })
+
+            .then((response) => {
+                return response.json()
+            })
+        })
+
+    </script>
 
 {% endblock %}

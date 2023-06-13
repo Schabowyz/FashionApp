@@ -97,3 +97,6 @@ class Cart(models.Model):
         for item in items:
             price += item.item_overall_price()
         return price
+    
+    def order_overall_price_not_authenticated(request):
+        return 0
