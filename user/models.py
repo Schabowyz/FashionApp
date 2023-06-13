@@ -26,7 +26,8 @@ class Order(models.Model):
         ("delivery", "in delivery"),
         ("shipped", "shipped")
     ]
-    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    email = models.CharField(max_length=128)
     date = models.DateTimeField()
     status = models.CharField(choices=STATUSES, max_length=16, default=STATUSES[0])
     first_name = models.CharField(max_length=64)

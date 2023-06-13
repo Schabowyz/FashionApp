@@ -135,6 +135,10 @@
             border-radius: 0px;
             border-bottom: 1px solid rgb(156, 156, 156);
         }
+        .order-input:disabled {
+            background-color: transparent;
+            color: rgb(100, 100, 100);
+        }
 
 
         /* HIDE ARROWS IN NUMBER INPUT */
@@ -172,12 +176,18 @@
                         </p>
                     </div>
                     <hr class="dropdown-divider">
-                    <div>
-                        {% if request.user.is_authenticated %}
-                            <div>
-                                User: {{ request.user.email }}
-                            </div><br>
-                            <form>
+                    <form action="{% url 'user:order' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            {% if request.user.is_authenticated %}
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="email" value="{{ request.user.email }}" placeholder="email address" disabled>
+                                </div>
+                            {% else %}
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="email" placeholder="email address">
+                                </div>
+                            {% endif %}
                                 <div class="mb-3">
                                     <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name">
                                 </div>
@@ -199,48 +209,22 @@
                                 <div class="mb-3">
                                     <input type="text" class="form-control order-input" name="country" value="{{ user_address.country }}" placeholder="country">
                                 </div>
+                            {% if request.user.is_authenticated %}
                                 <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="remember">
                                     <label class="form-check-label" for="remember">remember my address</label>
                                 </div>
-                            </form>
-                        {% else %}
-                            <form>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="email" placeholder="email address">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="first_name" placeholder="first name">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="last_name" placeholder="last name">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="street" placeholder="street">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input no-arrows" name="number" placeholder="house number">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="city" placeholder="city">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="number" class="form-control order-input" name="postal" placeholder="postal code">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="country" placeholder="country">
-                                </div>
-                            </form>
-                        {% endif %}
-                    </div>
-                    <!-- BUY BUTTON -->
-                    <br><br><br>
-                    <div class="svg-wrapper">
-                        <svg height="60" width="100%">
-                            <rect class="shape" height="60" width="100%">
-                        </svg>
-                        <div class="text"><button data-product="{{ item.id }}" data-action="add" class="update-cart">CHECKOUT</button></div>
-                    </div>
+                            {% endif %}
+                        </div>
+                        <!-- BUY BUTTON -->
+                        <br><br><br>
+                        <div class="svg-wrapper">
+                            <svg height="60" width="100%">
+                                <rect class="shape" height="60" width="100%">
+                            </svg>
+                            <div class="text"><button type="submit">CHECKOUT</button></div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -294,6 +278,5 @@
 
         </div>
     </div>
-    
 
 {% endblock %}

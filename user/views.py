@@ -1,13 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
 import json
 
 from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account, get_cart_info
-from .models import Cart, UserAddress
-from items.models import Item
+from .models import Cart, Order
 
 
 ########## VIEWS ############
@@ -56,6 +55,9 @@ def profile(request):
 
 def cart(request):
     return render(request, "user/cart.html", get_cart_info(request))
+
+def order(request):
+    return render(request, "user/order.html", get_cart_info(request))
 
 
 
