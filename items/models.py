@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 class Item(models.Model):
     GENDERS = [
-        ("m", "male"),
-        ("f", "female"),
-        ("u", "unisex")
+        ("male", "male"),
+        ("female", "female"),
+        ("unisex", "unisex")
     ]
     CATEGORIES = [
         ("shoes", "shoes"),

@@ -15,10 +15,11 @@
 
             <!-- FILTERS -->
             <div class="col-sm-4 col-md-3 col-xl-2">
-                <form class="disable-select">
+                <form class="disable-select" id="filtersForm" action="{% url 'items:search' page=1 %}" method="post">
+                    {% csrf_token %}
                     <h7>FILTERS</h7><br><br>
                     <div class="mb-3">
-                        <input type="text" class="search-bar search-field" placeholder="search">
+                        <input type="text" class="search-bar search-field" placeholder="search" name="query" value="{{ query }}">
                         <button type="submit" class="search-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -27,19 +28,30 @@
                     </div>
                     <hr class="dropdown-divider">
                     <div class="mb-2">gender:</div>
-                    {% for gender in genders %}
+                    {% for gender, checked in genders.items %}
                         <div class="mb-2">
-                            <input type="checkbox" id="box-{{ gender.0 }}">
-                            <label for="box-{{ gender.0 }}">{{ gender.1 }}</label>
+                            {% if checked == True %}
+                                <input type="checkbox" id="{{ gender }}" class="filterBtn" name="{{ gender }}" value="yes" checked>
+                                <label for="{{ gender }}">{{ gender }}</label>
+                            {% else %}
+                                <input type="checkbox" id="{{ gender }}" class="filterBtn" name="{{ gender }}" value="yes">
+                                <label for="{{ gender }}">{{ gender }}</label>
+                            {% endif %}
                         </div>
                     {% endfor %}
                     <hr class="dropdown-divider">
                     <div class="mb-2">category:</div>
-                    {% for category in categories %}
+                    {{ filters }}
+                    {% for category, checked in categories.items %}
                         <div class="mb-2">
-                            <input type="checkbox" id="box-{{ category.0 }}">
-                            <label for="box-{{ category.0 }}">{{ category.1 }}</label>
-                        </div>
+                            {% if checked == True %}
+                                <input type="checkbox" id="{{ category }}" class="filterBtn" name="{{ category }}" value="yes" checked>
+                                <label for="{{ category }}">{{ category }}</label>
+                            {% else %}
+                                <input type="checkbox" id="{{ category }}" class="filterBtn" name="{{ category }}" value="yes">
+                                <label for="{{ category }}">{{ category }}</label>
+                            {% endif %}
+                        </div>                        
                     {% endfor %}
                 </form>
             </div>             
@@ -86,6 +98,20 @@
 
         </div>
     </div>
+
+    <script>
+        
+        var form = document.getElementById("filtersForm")
+        var filterBtns = document.getElementsByClassName("filterBtn")
+
+        for (var i = 0; i < filterBtns.length; i++) {
+            filterBtns[i].addEventListener("click", function() {
+                console.log(filterBtns[i].id)
+                form.submit()                
+            })
+        }
+
+    </script>
     
 
 {% endblock %}

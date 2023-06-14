@@ -130,6 +130,7 @@
         }
 
 
+        /* ORDER INPUTS */
         .order-input {
             border: none;
             border-radius: 0px;
@@ -137,7 +138,7 @@
         }
         .order-input:disabled {
             background-color: transparent;
-            color: rgb(100, 100, 100);
+            color: rgb(150, 150, 150);
         }
 
 
@@ -183,17 +184,23 @@
                                 <div class="mb-3">
                                     <input type="text" class="form-control order-input" name="email" value="{{ request.user.email }}" placeholder="email address" disabled>
                                 </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="last_name" value="{{ request.user.last_name }}" placeholder="last name" disabled>
+                                </div>
                             {% else %}
                                 <div class="mb-3">
                                     <input type="text" class="form-control order-input" name="email" placeholder="email address">
                                 </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="first_name" placeholder="first name">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control order-input" name="last_name" placeholder="last name">
+                                </div>
                             {% endif %}
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="last_name" value="{{ request.user.last_name }}" placeholder="last name">
-                                </div>
                                 <div class="mb-3">
                                     <input type="text" class="form-control order-input" name="street" value="{{ user_address.street }}" placeholder="street">
                                 </div>
@@ -211,7 +218,7 @@
                                 </div>
                             {% if request.user.is_authenticated %}
                                 <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember">
+                                    <input type="checkbox" class="form-check-input" id="remember" name="remember" value="true">
                                     <label class="form-check-label" for="remember">remember my address</label>
                                 </div>
                             {% endif %}

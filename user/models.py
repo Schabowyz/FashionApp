@@ -99,4 +99,8 @@ class Cart(models.Model):
         return price
     
     def order_overall_price_not_authenticated(request):
-        return 0
+        price = 0.0
+        items = Cart.get_cart_items(request)[0]
+        for item in items:
+            price += (item["item_id"].current_price * item["quantity"])
+        return round(price, 2)

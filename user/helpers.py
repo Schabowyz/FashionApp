@@ -44,10 +44,8 @@ def user_login(request):
     user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
     if user:
         cookie_cart = get_cart_info(request)
-        print(cookie_cart)
         login(request, user)
         for item in cookie_cart["cart"][0]:
-            print(item)
             cart = Cart.objects.get_or_create(user_id=User.objects.get(id=request.user.id), item_id=item["item_id"])
             if cart[1] == True:
                 cart[0].quantity = item["quantity"]
@@ -209,25 +207,57 @@ def get_cart_info(request):
             cart.append(item)
             price += item["item_overall_price"]
             quantity += item["quantity"]
-            print(item["quantity"])
         cart = (cart, quantity)
         user_address = None
 
     return {"cart": cart, "price": price, "user_address": user_address}
 
 
+def save_form_data(request):
+    if request.user.is_authenticated:
+        email = request.user.email
+        first_name = request.user.first_name
+        last_name = request.user.last_name
+    else:
+        email = request.POST["email"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+    request.session["user_info"] = {
+        "email": email,
+        "first_name": first_name,
+        "last_name": last_name,
+        "street": request.POST["street"],
+        "number": request.POST["number"],
+        "city": request.POST["city"],
+        "postal": request.POST["postal"],
+        "country": request.POST["country"]
+    }
+
+    if request.POST.get("remember") == "true":
+        user_address = UserAddress.objects.get(user_id=request.user.id)
+        user_address.country = request.POST["country"]
+        user_address.city = request.POST["city"]
+        user_address.postal = request.POST["postal"]
+        user_address.street = request.POST["street"]
+        user_address.number = request.POST["number"]
+        user_address.save()
+
+    return
+
+
 def buy_user(request):
     # Checks if price is correct
     price = round(float(json.loads(request.body)["price"]), 2)
-    price_check = Cart.order_overall_price(request)
-    if price != round(price_check, 2):
+    price_check = round(Cart.order_overall_price(request), 2)
+    print(price)
+    print(price_check)
+    if price != price_check:
         messages.error(request, "Wrong payment amount")
         return HttpResponseRedirect(reverse("user:cart"))
     
     # Creates an entry in orders db
-    user_id = User.objects.get(id=request.user.id)
     order = Order(
-        user_id = user_id,
+        user_id = User.objects.get(id=request.user.id),
         email = request.session["user_info"]["email"],
         date = datetime.datetime.now(),
         status = "pending",
@@ -251,6 +281,38 @@ def buy_user(request):
     cart = Cart.objects.filter(user_id=request.user.id)
     cart.delete()
 
+    # Deletes user_info from session data
+    del request.session["user_info"]
 
-def buy_guest(reqeust):
-    return "User not logged in"
+
+def buy_guest(request):
+    # Checks if price is correct
+    price = round(float(json.loads(request.body)["price"]), 2)
+    if price != Cart.order_overall_price_not_authenticated(request):
+        messages.error(request, "Wrong payment amount")
+        return HttpResponseRedirect(reverse("user:cart"))
+    
+    # Creates entry in orders db
+    order = Order(
+        user_id = None,
+        email = request.session["user_info"]["email"],
+        date = datetime.datetime.now(),
+        status = "pending",
+        first_name = request.session["user_info"]["first_name"],
+        last_name = request.session["user_info"]["last_name"],
+        country = request.session["user_info"]["country"],
+        city = request.session["user_info"]["city"],
+        postal = request.session["user_info"]["postal"],
+        street = request.session["user_info"]["street"],
+        number = request.session["user_info"]["number"],
+    )
+    order.save()
+
+    # Add cart items to order
+    for item in Cart.get_cart_items(request)[0]:
+        listed_item = item["item_id"]
+        ordered_item = OrderedItems(order_id=order, item_id=listed_item, quantity=item["quantity"], price_piece=listed_item.current_price)
+        ordered_item.save()
+
+    # Deletes user_info from session data
+    del request.session["user_info"]
