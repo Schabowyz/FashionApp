@@ -1,5 +1,7 @@
 {% extends "layout_main.html" %}
 
+{% load socialaccount %}
+
 {% load static %}
 
 {% block title %}Profile{% endblock %}
@@ -39,6 +41,23 @@
                                 <td>surname:</td>
                                 <td class="text-end">{{ request.user.last_name }}</td>
                             </tr>
+                        </table>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <!-- USER CONTACT -->
+                    <div>
+                        <p>
+                            <h7>CONTACT:</h7>
+                            <button class="edit-button" type="button" data-bs-toggle="modal" data-bs-target="#modal_contact">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                            </button>
+                        </p>
+                    </div>
+                    <div>
+                        <table>
                             <tr>
                                 <td>email:</td>
                                 <td class="text-end">{{ request.user.email }}</td>
@@ -46,6 +65,30 @@
                         </table>
                     </div>
                     <hr class="dropdown-divider">
+                    {% get_social_accounts user as accounts %}
+                    {% if not accounts %}
+                    <!-- USER SECURITY -->
+                        <div>
+                            <p>
+                                <h7>SECURITY:</h7>
+                                <button class="edit-button" type="button" data-bs-toggle="modal" data-bs-target="#modal_security">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                    </svg>
+                                </button>
+                            </p>
+                        </div>
+                        <div>
+                            <table>
+                                <tr>
+                                    <td>password:</td>
+                                    <td class="text-end">********</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <hr class="dropdown-divider">
+                    {% endif %}
                     <!-- USER ADDRESS -->
                     <div>
                         <p><h7>ADDRESS:</h7>
@@ -165,8 +208,9 @@
                 <h5 class="modal-title" id="staticBackdropLabel">USER INFORMATION</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form action="{% url 'user:info' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="input-first_name" class="form-label">first name:</label>
                         <input id="input-first_name" type="text" class="form-control" name="first_name" placeholder="first name" value="{{ request.user.first_name }}">
@@ -175,16 +219,63 @@
                         <label for="input-last_name" class="form-label">last name:</label>
                         <input id="input-last_name" type="text" class="form-control" name="last_name" placeholder="last name" value="{{ request.user.last_name }}">
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">save</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- CONTACT MODAL -->
+    <div class="modal fade" id="modal_contact" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">CONTACT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'user:email' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="input-email" class="form-label">email address:</label>
                         <input id="input-email" type="email" class="form-control" name="email" placeholder="email address" value="{{ request.user.email }}">
                     </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">save</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- SECURITY MODAL -->
+    <div class="modal fade" id="modal_security" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">PASSWORD</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
-            </div>
+            <form action="{% url 'user:password' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="input-first_name" class="form-label">password:</label>
+                        <input id="input-first_name" type="password" class="form-control" name="password" placeholder="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-last_name" class="form-label">repeat password:</label>
+                        <input id="input-last_name" type="password" class="form-control" name="repeat_password" placeholder="repeat password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">save</button>
+                </div>
+            </form>
         </div>
         </div>
     </div>
@@ -197,8 +288,9 @@
                 <h5 class="modal-title" id="staticBackdropLabel">ADDRESS INFORMATION</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form action="{% url 'user:address' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
                     <div class="mb-3">
                         <label for="input-street" class="form-label">street:</label>
                         <input id="input-street" type="text" class="form-control" name="street" placeholder="street" value="{{ user_address.street }}">
@@ -219,12 +311,11 @@
                         <label for="input-country" class="form-label">country:</label>
                         <input id="input-country" type="text" class="form-control" name="country" placeholder="country" value="{{ user_address.country }}">
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">save</button>
+                </div>
+            </form>
         </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 {% extends "layout_main.html" %}
 
+{% load socialaccount %}
+
 {% load static %}
 
 {% block title %}Register{% endblock %}
@@ -19,6 +21,11 @@
     <div class="container-fluid d-flex justify-content-center">
         <div class="panel">
             <h4>SIGN UP</h4><br>
+            <p>
+                <a class="decorator" href="{% provider_login_url 'google'%}?next=/">
+                    Sign in with Google
+                </a>
+            </p>
             <form action="{% url 'user:register' %}" method="post">
                 {% csrf_token %}
                 <p>ACCOUNT INFORMATION:</p>

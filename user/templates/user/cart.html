@@ -177,63 +177,66 @@
                         </p>
                     </div>
                     <hr class="dropdown-divider">
-                    <form action="{% url 'user:cart' %}" method="post">
-                        {% csrf_token %}
-                        <div>
-                            {% if request.user.is_authenticated %}
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="email" value="{{ request.user.email }}" placeholder="email address" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="last_name" value="{{ request.user.last_name }}" placeholder="last name" disabled>
-                                </div>
-                            {% else %}
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="email" placeholder="email address">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="first_name" placeholder="first name">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="last_name" placeholder="last name">
-                                </div>
-                            {% endif %}
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="street" value="{{ user_address.street }}" placeholder="street">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input no-arrows" name="number" value="{{ user_address.number }}" placeholder="house number">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="city" value="{{ user_address.city }}" placeholder="city">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="number" class="form-control order-input" name="postal" value="{{ user_address.postal }}" placeholder="postal code">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control order-input" name="country" value="{{ user_address.country }}" placeholder="country">
-                                </div>
-                            {% if request.user.is_authenticated %}
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember" value="true">
-                                    <label class="form-check-label" for="remember">remember my address</label>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <!-- BUY BUTTON -->
-                        <br><br><br>
-                        <div class="svg-wrapper">
-                            <svg height="60" width="100%">
-                                <rect class="shape" height="60" width="100%">
-                            </svg>
-                            <div class="text"><button type="submit">CHECKOUT</button></div>
-                        </div>
-                    </form>
+                    {% if cart.0 %}
+                        <form action="{% url 'user:cart' %}" method="post">
+                            {% csrf_token %}
+                            <div>
+                                {% if request.user.is_authenticated %}
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="email" value="{{ request.user.email }}" placeholder="email address" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="first_name" value="{{ request.user.first_name }}" placeholder="first name" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="last_name" value="{{ request.user.last_name }}" placeholder="last name" disabled>
+                                    </div>
+                                {% else %}
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="email" placeholder="email address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="first_name" placeholder="first name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="last_name" placeholder="last name">
+                                    </div>
+                                {% endif %}
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="street" value="{{ user_address.street }}" placeholder="street">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input no-arrows" name="number" value="{{ user_address.number }}" placeholder="house number">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="city" value="{{ user_address.city }}" placeholder="city">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="number" class="form-control order-input" name="postal" value="{{ user_address.postal }}" placeholder="postal code">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control order-input" name="country" value="{{ user_address.country }}" placeholder="country">
+                                    </div>
+                                {% if request.user.is_authenticated %}
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="remember" name="remember" value="true">
+                                        <label class="form-check-label" for="remember">remember my address</label>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- BUY BUTTON -->
+                            <br><br><br>
+                            <div class="svg-wrapper">
+                                <svg height="60" width="100%">
+                                    <rect class="shape" height="60" width="100%">
+                                </svg>
+                                <div class="text"><button type="submit">CHECKOUT</button></div>
+                            </div>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
+            
 
             <div class="col-lg-9 top-padding order-2">
                 <div>

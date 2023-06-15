@@ -148,9 +148,11 @@ def renewEmail(request):
 
 # DODAĆ CHECK PW
 def change_password(request):
-    password = request.POST["password"]
+    if request.POST["password"] != request.POST["repeat_password"]:
+        messages.error(request, "passwords don't match")
+        return
     user = User.objects.get(id=request.user.id)
-    user.set_password(password)
+    user.set_password(request.POST["password"])
     user.save()
     update_session_auth_hash(request, user)
     messages.success(request, "password updated")
@@ -159,19 +161,27 @@ def change_password(request):
 # DODAĆ CHECKI INFORMACJI
 def change_info(request):
     user = User.objects.get(id=request.user.id)
-    user.username = request.POST["email"]
-    user.email = request.POST["email"]
     user.first_name = request.POST["first_name"]
     user.last_name = request.POST["last_name"]
     user.save()
-    user_address = UserAddress.objects.get(user_id=request.user.id)
-    user_address.country = request.POST["country"]
-    user_address.city = request.POST["city"]
-    user_address.postal = request.POST["postal"]
-    user_address.street = request.POST["street"]
-    user_address.number = request.POST["number"]
-    user_address.save()
-    messages.success("information updated")
+    messages.success(request, "information updated")
+
+def change_email(request):
+    user = User.objects.get(id=request.user.id)
+    user.username = request.POST["email"]
+    user.email = request.POST["email"]
+    user.save()
+
+def change_address(request):
+    address = UserAddress.objects.get(user_id=request.user.id)
+    print(request.POST["country"])
+    address.country = request.POST["country"]
+    address.city = request.POST["city"]
+    address.postal = request.POST["postal"]
+    address.street = request.POST["street"]
+    address.number = request.POST["number"]
+    address.save()
+    messages.success(request, "information updated")
 
 
 def delete_account(request):
@@ -189,7 +199,10 @@ def get_cart_info(request):
     if request.user.is_authenticated:
         cart = Cart.get_cart_items(request)
         price = Cart.order_overall_price(request)
-        user_address = UserAddress.objects.get(user_id=request.user.id)
+        try:
+            user_address = UserAddress.objects.get(user_id=request.user.id)
+        except UserAddress.DoesNotExist:
+            user_address = None
     else:
         try:
             cart_cookie = json.loads(request.COOKIES["cart"])

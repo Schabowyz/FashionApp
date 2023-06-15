@@ -1,3 +1,4 @@
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -104,3 +105,11 @@ class Cart(models.Model):
         for item in items:
             price += (item["item_id"].current_price * item["quantity"])
         return round(price, 2)
+    
+
+class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
+
+    def populate_user(self, request, sociallogin, data):
+        user = super().populate_user(request, sociallogin, data)
+        user.username = user.email
+        return user

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -53,8 +54,10 @@ def updateItem(request):
 
     cart = Cart.objects.get_or_create(user_id=User.objects.get(id=request.user.id), item_id=Item.objects.get(id=data['productId']))[0]
     if data["action"] == "add":
+        messages.success(request, "product was successfully added to cart")
         cart.quantity += 1
     elif data["action"] == "remove":
+        messages.success(request, "product was successfully removed from cart")
         cart.quantity -= 1
     
     cart.save()

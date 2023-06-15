@@ -1,9 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, delete_account, get_cart_info,save_form_data, buy_user, buy_guest
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account, get_cart_info,save_form_data, buy_user, buy_guest
 from .models import Cart
 
 
@@ -58,7 +59,11 @@ def cart(request):
     return render(request, "user/cart.html", get_cart_info(request))
 
 def order(request):
-    return render(request, "user/order.html", get_cart_info(request))
+    context = get_cart_info(request)
+    if not request.session["user_info"] or not context["cart"][0]:
+        messages.error(request, "your order is incomplete")
+        return HttpResponseRedirect(reverse("user:cart"))
+    return render(request, "user/order.html", context)
 
 
 
@@ -81,6 +86,16 @@ def user_change_password(request):
 @login_required
 def user_change_info(request):
     change_info(request)
+    return HttpResponseRedirect(reverse("user:profile"))
+
+@login_required
+def user_change_email(request):
+    change_email(request)
+    return HttpResponseRedirect(reverse("user:profile"))
+
+@login_required
+def user_change_address(request):
+    change_address(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
 @login_required

@@ -1,5 +1,7 @@
 {% extends "layout_main.html" %}
 
+{% load socialaccount %}
+
 {% load static %}
 
 {% block title %}Login{% endblock %}
@@ -38,6 +40,7 @@
             </form>
             <br>
             <div class="questions">
+                <p><a class="decorator" href="{% provider_login_url 'google'%}?next=/">Sign in with Google</a></p>
                 <p><a class="decorator" href="{% url 'user:register' %}">Not a user yet? Sign up now!</a></p>
                 <p><a class="decorator" href="{% url 'user:request_renew' %}">Forgot your password?</a></p>
             </div>
