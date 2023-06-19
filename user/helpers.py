@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.hashers import check_password
@@ -6,7 +7,6 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
@@ -19,6 +19,9 @@ from .models import UserAddress, Order, OrderedItems, Cart
 from items.models import Item
 from .tokens import account_activation_token
 
+
+
+##############################    GETTERS    ##############################
 
 
 def get_user_address(request):
@@ -38,6 +41,10 @@ def get_user_orders(request):
         order["order_items"] = OrderedItems.objects.select_related("item_id").filter(order_id=instance.id)
         orders_list.append(order)
     return orders_list[::-1]
+
+
+
+##############################    USER ACCOUNT SERVICE    ##############################
 
 
 def user_login(request):
@@ -166,11 +173,13 @@ def change_info(request):
     user.save()
     messages.success(request, "information updated")
 
+
 def change_email(request):
     user = User.objects.get(id=request.user.id)
     user.username = request.POST["email"]
     user.email = request.POST["email"]
     user.save()
+
 
 def change_address(request):
     address = UserAddress.objects.get(user_id=request.user.id)
@@ -195,6 +204,11 @@ def delete_account(request):
         return False
     
 
+
+##############################    CART AND ORDER SERVICE    ##############################
+
+
+# Gets info about users cart, either from db if user is logged or from session if not
 def get_cart_info(request):
     if request.user.is_authenticated:
         cart = Cart.get_cart_items(request)
@@ -226,6 +240,7 @@ def get_cart_info(request):
     return {"cart": cart, "price": price, "user_address": user_address}
 
 
+# Order form user info saving
 def save_form_data(request):
     if request.user.is_authenticated:
         email = request.user.email
@@ -259,21 +274,12 @@ def save_form_data(request):
 
 
 def buy_user(request):
-    # Checks if price is correct
-    price = round(float(json.loads(request.body)["price"]), 2)
-    price_check = round(Cart.order_overall_price(request), 2)
-    print(price)
-    print(price_check)
-    if price != price_check:
-        messages.error(request, "Wrong payment amount")
-        return HttpResponseRedirect(reverse("user:cart"))
-    
     # Creates an entry in orders db
     order = Order(
         user_id = User.objects.get(id=request.user.id),
         email = request.session["user_info"]["email"],
         date = datetime.datetime.now(),
-        status = "pending",
+        status = settings.ORDER_STATUSES[0],
         first_name = request.session["user_info"]["first_name"],
         last_name = request.session["user_info"]["last_name"],
         country = request.session["user_info"]["country"],
@@ -297,20 +303,16 @@ def buy_user(request):
     # Deletes user_info from session data
     del request.session["user_info"]
 
+    return order
+
 
 def buy_guest(request):
-    # Checks if price is correct
-    price = round(float(json.loads(request.body)["price"]), 2)
-    if price != Cart.order_overall_price_not_authenticated(request):
-        messages.error(request, "Wrong payment amount")
-        return HttpResponseRedirect(reverse("user:cart"))
-    
     # Creates entry in orders db
     order = Order(
         user_id = None,
         email = request.session["user_info"]["email"],
         date = datetime.datetime.now(),
-        status = "pending",
+        status = settings.ORDER_STATUSES[0],
         first_name = request.session["user_info"]["first_name"],
         last_name = request.session["user_info"]["last_name"],
         country = request.session["user_info"]["country"],
@@ -329,3 +331,5 @@ def buy_guest(request):
 
     # Deletes user_info from session data
     del request.session["user_info"]
+
+    return order

@@ -17,5 +17,7 @@ urlpatterns = [
     path("delete", views.user_delete_account, name="delete"),
     path("cart", views.cart, name="cart"),
     path("order", views.order, name="order"),
-    path("create_order", views.create_order, name="create_order")
+    path("order/payment_successful", views.payment_successful, name="payment_successful"),
+    path("order/payment_cancelled", views.payment_cancelled, name="payment_cancelled"),
+    # path("stripe_webhook", views.stripe_webhook, name="stripe_webhook")
 ]

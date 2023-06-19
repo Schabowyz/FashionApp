@@ -1,6 +1,8 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.dispatch import receiver
 
 import json
 
@@ -20,17 +22,11 @@ class UserAddress(models.Model):
 
 
 class Order(models.Model):
-    STATUSES = [
-        ("pending", "pending"),
-        ("payment", "awaiting payment"),
-        ("completed", "completed"),
-        ("delivery", "in delivery"),
-        ("shipped", "shipped")
-    ]
     user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    stripe_id = models.CharField(max_length=500, null=True)
     email = models.CharField(max_length=128)
     date = models.DateTimeField()
-    status = models.CharField(choices=STATUSES, max_length=16, default=STATUSES[0])
+    status = models.CharField(max_length=16, default=settings.ORDER_STATUSES[0])
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     country = models.CharField(max_length=56)

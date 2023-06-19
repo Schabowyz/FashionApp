@@ -151,7 +151,12 @@
                         <svg height="60" width="100%">
                             <rect class="shape" height="60" width="100%">
                         </svg>
-                        <div class="text"><button id="orderBtn" data-bs-toggle="modal" data-bs-target="#paymentModal">ORDER</button></div>
+                        <form enctype="multipart/form-data" method="post" role="order">
+                            {% csrf_token %}
+                            <div class="text">
+                                <button id="orderBtn" type="submit" href="{% url 'user:order' %}" data-bind-href="pricing">ORDER</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -209,30 +214,5 @@
         </div>
         </div>
     </div>
-
-    <script>
-
-        var orderBtn = document.getElementById("orderBtn")
-        orderBtn.addEventListener("click", function(){
-
-            var url = "/user/create_order"
-
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrftoken
-                },
-                body: JSON.stringify({
-                    "price": "{{ price }}"
-                })
-            })
-
-            .then((response) => {
-                return response.json()
-            })
-        })
-
-    </script>
 
 {% endblock %}
