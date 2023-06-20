@@ -152,3 +152,19 @@ input[type="checkbox"]:checked + label:before {
         margin-top: 40px;
     }
 }
+
+
+/* DECORATOR REMOVAL */
+.no-decorator {
+    text-decoration: none;
+    color: black;
+}
+.no-decorator:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+
+.bottom-spacing {
+    padding-bottom: 10px;
+}
