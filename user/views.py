@@ -7,7 +7,7 @@ from django.urls import reverse
 
 import stripe
 
-from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account, get_cart_info,save_form_data, buy_user, buy_guest
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account, get_cart_info,save_form_data, buy_user, buy_guest, order_email
 from .models import Cart, Order
 
 
@@ -88,15 +88,23 @@ def order(request):
         # Gets items from cart to stripe fromat
         line_items = []
         for item in context["cart"][0]:
+            if request.user.is_authenticated:
+                unit_amount = int(item.item_id.current_price * 100)
+                name = item.item_id.name
+                quantity = item.quantity
+            else:
+                unit_amount = int(item["item_id"].current_price * 100)
+                name = item["item_id"].name
+                quantity = item["quantity"]
             line_items.append({
                 "price_data": {
                     "currency": "eur",
-                    "unit_amount": int(item.item_id.current_price * 100),
+                    "unit_amount": unit_amount,
                     "product_data": {
-                        "name": item.item_id.name
+                        "name": name
                     }
                 },
-                "quantity": item.quantity
+                "quantity": quantity
             })
         # Creates stripe session
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -113,7 +121,10 @@ def order(request):
         order.stauts = settings.ORDER_STATUSES[1]
         order.save()
 
-        return redirect(checkout_session.url, code=303)
+        # Redirects to correct url and removes cart cookie
+        response = HttpResponseRedirect(checkout_session.url)
+        response.delete_cookie("cart")
+        return response
 
     return render(request, "user/order.html", context)
 
@@ -127,17 +138,12 @@ def payment_cancelled(request):
 
 
 def payment_successful(request):
-
-    # PONIŻSZE DO WYKORZYSTANIA DO WYSŁANIA MAILA
-    # stripe.api_key = settings.STRIPE_SECRET_KEY
-    # checkout_session_id = request.GET.get("session_id", None)
-    # session = stripe.checkout.Session.retrieve(checkout_session_id)
-    # customer = stripe.Customer.retrieve(session.customer)
-
     order = Order.objects.get(id=request.GET.get("order_id", None))
     order.status = settings.ORDER_STATUSES[2]
     order.save()
     messages.success(request, "transaction successful, your order was created")
+
+    order_email(request, order.email, order, order.first_name + " " + order.last_name)
 
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("user:profile"))

@@ -8,7 +8,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
@@ -306,7 +305,7 @@ def buy_user(request):
     return order
 
 
-def buy_guest(request):
+def buy_guest(request):                                                                 # DODAĆ USUWANIE CART COOKIE
     # Creates entry in orders db
     order = Order(
         user_id = None,
@@ -333,3 +332,18 @@ def buy_guest(request):
     del request.session["user_info"]
 
     return order
+
+
+def order_email(request, to_email, order, name):
+    mail_subject = "Order number " + str(order.id)
+    message = render_to_string("user/mail_order.html", {
+        "name": name,
+        "items": OrderedItems.objects.filter(order_id=order),
+        "order": order
+    })
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    email.content_subtype = "html"
+    if email.send():
+        messages.success(request, "email with your order was sent to your mailbox")
+    else:
+        messages.error(request, "something went wrong, email with your order wasn't send")

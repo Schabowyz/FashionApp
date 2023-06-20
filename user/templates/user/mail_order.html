@@ -1,0 +1,61 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <title></title>
+
+        </head>
+        
+        <body>
+            <div>
+                Hello, {{ name }}!<br><br>
+                This mail is for showcase purposes only. MODAWCHUJ does not provide a real service, it's a website that's part of mine porfolio.<br><br>
+                Thank you for making an order at MODAWCHUJ. Your order was recived and it currently is beeing processed. Current order status is: {{ order.status }}.<br>
+                Your shipment information:<br>
+                {{ order.street }} {{ order.number }}<br>
+                {{ order.city }}, {{ order.postal }}<br>
+                {{ order.country }}
+            </div><br>
+            <div>
+                <table style="word-wrap:break-word; border-collapse: collapse; width: 100%;">
+                    <tbody>
+                        <tr>
+                            <th scope="col" style="border: none; padding: 6px; text-align: left;">ORDER DETAILS</th>
+                        </tr>
+                        <tr>
+                            <td scope="col" style="border: none; padding: 6px; text-align: left; background-color: rgb(245, 245, 245);">product:</td>
+                            <td scope="col" style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);">quantity:</td>
+                            <td scope="col" style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);">piece price:</td>
+                            <td scope="col" style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);">price:</td>
+                        </tr>
+                        {% for item in items %}
+                            <tr>
+                                <td scope="col" style="border: none; padding: 6px; text-align: left;"><a style="color: black;" href="{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
+                                <td scope="col" style="border: none; padding: 6px; text-align: center;">{{ item.quantity }}</td>
+                                <td scope="col" style="border: none; padding: 6px; text-align: center;">{{ item.item_id.current_price|floatformat:2 }}€</td>
+                                <td scope="col" style="border: none; padding: 6px; text-align: center;">{{ item.overall_price|floatformat:2 }}€</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);"></td>
+                            <td style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);"></td>
+                            <th scope="col" style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);">TOTAL:</tH>
+                            <th scope="col" style="border: none; padding: 6px; text-align: center; background-color: rgb(245, 245, 245);">{{ order.overall_price|floatformat:2 }}€</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><br><br>
+            <div>
+                {% if order.user_id %}
+                    You can check your order in your profile page.
+                {% endif %}
+                Thank you for trying out my application.<br><br>
+                Best regards, app's developer.
+            </div>
+        </body>
+    
+</html>
