@@ -69,9 +69,41 @@
     <body>
 
         <style>
+
+            html {
+                height: 100%;
+            }
+
             body {
                 font-family: 'Andale Mono';
+                display: flex;
+                flex-direction: column;
+                min-height: 100%;
             }
+
+            .layout-main {
+                flex-grow: 1;
+            }
+
+            .layout-footer {
+                margin-top: 40px;
+                background: rgb(0, 0, 0);
+            }
+
+            .footer-text {
+                padding-top: 20px;
+                padding-bottom: 5px;
+                width: inherit;
+                text-align: center;
+                color: gray;
+            }
+            .footer-text a {
+                color: gray;
+                text-decoration: underline 1px gray;
+            }
+
+
+
 
             .navbar {
                 z-index: 9999;
@@ -130,6 +162,8 @@
 
 
          </style>
+
+         <div class="layout-main">
 
         <!-- Page navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark custom-transparent fixed-top">
@@ -199,6 +233,13 @@
         <!-- Page content -->
         {% block body %}
             <!-- Body content -->
+        {% endblock %}
+
+        </div>
+
+        <!-- Footer -->
+        {% block footer %}
+            <!-- Footer content -->
         {% endblock %}
 
         <script type="text/javascript" src="{% static 'script/cart.js' %}"></script>    

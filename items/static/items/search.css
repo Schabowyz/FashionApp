@@ -117,7 +117,8 @@ input[type="checkbox"]:checked + label:before {
     width: 115%;
 }
 .cta .text {
-    bottom: -22%;
+    color: white;
+    bottom: -24%;
     padding: 15px;
     position: absolute;
     transition: 0.2s ease-in-out;
@@ -125,12 +126,12 @@ input[type="checkbox"]:checked + label:before {
 }
 @media (max-width: 576px){
     .cta .text {
-        bottom: -17%;
+        bottom: -18%;
     }
 }
 @media (min-width: 1400px){
     .cta .text {
-        bottom: -17%;
+        bottom: -18%;
     }
 }
 .cta .text h2 {
@@ -165,6 +166,27 @@ input[type="checkbox"]:checked + label:before {
 }
 
 
-.bottom-spacing {
+.bottom-spacing-10 {
     padding-bottom: 10px;
+}
+
+.bottom-spacing-20 {
+    padding-bottom: 20px;
+}
+
+
+/* PAGINATION */
+.page-link {
+    text-align: center;
+    color: black;
+    border: none;
+    width: 100px;
+}
+
+.page-link:hover {
+    color: rgb(80, 80, 80);
+}
+
+.button-spacing {
+    width: 30px;
 }

@@ -21,22 +21,33 @@
                     <div class="description">
                         {{ item.description }}
                     </div>
-                    <br><hr class="dropdown-divider"><br>
-                    <div>
-                        {{ item.gender }}
-                    </div>
-                    <div>
-                        {{ item.category }}
-                    </div>
-                    <div>
-                        {% if item.quantity > 0 %}product available{% else %}product unavailable{% endif %}
-                    </div>
-                    <br><hr class="dropdown-divider"><br><br><br>
+                    <hr class="dropdown-divider">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td scope="col" class="align-left">price:</td>
+                                <td scope="col" class="align-right">{{ item.current_price|floatformat:2 }}€</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">gender:</td>
+                                <td scope="col" class="align-right">{{ item.gender }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">category:</td>
+                                <td scope="col" class="align-right">{{ item.category }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">availability:</td>
+                                <td scope="col" class="align-right">{% if item.quantity > 0 %}available{% else %}not available{% endif %}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr class="dropdown-divider"><br><br><br>
                     <div class="svg-wrapper">
                         <svg height="60" width="100%">
                             <rect class="shape" height="60" width="100%">
                         </svg>
-                        <div class="text"><button data-product="{{ item.id }}" data-action="add" class="update-cart">BUY NOW</button></div>
+                        <div class="text"><button data-product="{{ item.id }}" data-action="add" class="update-cart">ADD TO CART</button></div>
                     </div>
                 </div>
             </div>
@@ -46,4 +57,8 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block footer %}
+    {% include "footer.html" %}
 {% endblock %}

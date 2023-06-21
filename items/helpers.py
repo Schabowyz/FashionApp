@@ -17,9 +17,10 @@ def items_page(page_number, gender_filters, category_filters, search):
         if search:
             query.add(Q(name__icontains=search), Q.AND)
         items = Item.objects.filter(query)
-    paginator = Paginator(items, 24)
+    paginator = Paginator(items, 6)
     page = paginator.get_page(page_number)
     return page
+
 
 def get_genders_dict():
     genders = {}
@@ -27,6 +28,7 @@ def get_genders_dict():
     for gender in pos_genders:
         genders[gender[0]] = False
     return genders
+
 
 def get_categories_dict():
     categories = {}

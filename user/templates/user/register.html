@@ -21,16 +21,13 @@
     <div class="container-fluid d-flex justify-content-center">
         <div class="panel">
             <h4>SIGN UP</h4><br>
-            <p>
-                <a class="decorator" href="{% provider_login_url 'google'%}?next=/">
-                    Sign in with Google
-                </a>
-            </p>
             <form action="{% url 'user:register' %}" method="post">
                 {% csrf_token %}
-                <p>ACCOUNT INFORMATION:</p>
+                <p>ACCOUNT INFORMATION:<br>
+                (required to sign up)
+                </p>
                 <div class="mb-3">
-                    <input type="email" class="form-control" name="username" placeholder="email address" aria-describedby="emailHelp" autofocus>
+                    <input type="email" class="form-control transparent-input" name="username" placeholder="email address" aria-describedby="emailHelp" autofocus>
                     <div id="emailHelp" class="form-text">
                         <ul>
                             <li>unique for each user</li>
@@ -38,7 +35,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" name="password" placeholder="password" aria-describedby="passwordHelp">
+                    <input type="password" class="form-control transparent-input" name="password" placeholder="password" aria-describedby="passwordHelp">
                     <div id="passwordHelp" class="form-text">
                         <ul>
                             <li>at least 8 characters long</li>
@@ -48,30 +45,33 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" aria-describedby="repeat_passwordHelp" name="repeat_password" placeholder="repeat password">
+                    <input type="password" class="form-control transparent-input" aria-describedby="repeat_passwordHelp" name="repeat_password" placeholder="repeat password">
                 </div>
+                
                 <br><hr class="dropdown-divider"><br>
-                <p>PERSONAL INFORMATION:</p>
+                <p>PERSONAL INFORMATION:<br>
+                (can be provided later)
+                </p>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="first_name" placeholder="first name">
+                    <input type="text" class="form-control transparent-input" name="first_name" placeholder="first name">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="last_name" placeholder="last name">
+                    <input type="text" class="form-control transparent-input" name="last_name" placeholder="last name">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="country" placeholder="country">
+                    <input type="text" class="form-control transparent-input" name="country" placeholder="country">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="city" placeholder="city">
+                    <input type="text" class="form-control transparent-input" name="city" placeholder="city">
                 </div>
                 <div class="mb-3">
-                    <input type="number" class="no-arrows form-control" name="postal" placeholder="postal">
+                    <input type="number" class="no-arrows form-control transparent-input" name="postal" placeholder="postal">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="street" placeholder="street">
+                    <input type="text" class="form-control transparent-input" name="street" placeholder="street">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" name="number" placeholder="house number">
+                    <input type="text" class="form-control transparent-input" name="number" placeholder="house number">
                 </div>
                 <br><hr class="dropdown-divider">
                 <br><br>
@@ -84,7 +84,9 @@
             </form>
             <br>
             <div class="questions">
+                <p><a class="decorator" href="{% url 'user:login' %}">Sign in as demo user</a></p>
                 <p><a class="decorator" href="{% url 'user:login' %}">Already an user? Sign in now!</a></p>
+                <p><a class="decorator" href="{% provider_login_url 'google'%}?next=/">Sign in with Google</a></p>
             </div>
         </div>
     </div>

@@ -243,16 +243,12 @@ def get_cart_info(request):
 def save_form_data(request):
     if request.user.is_authenticated:
         email = request.user.email
-        first_name = request.user.first_name
-        last_name = request.user.last_name
     else:
         email = request.POST["email"]
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
     request.session["user_info"] = {
         "email": email,
-        "first_name": first_name,
-        "last_name": last_name,
+        "first_name": request.POST["first_name"],
+        "last_name": request.POST["last_name"],
         "street": request.POST["street"],
         "number": request.POST["number"],
         "city": request.POST["city"],

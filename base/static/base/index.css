@@ -63,3 +63,10 @@ img {
     -webkit-animation: 0.5s draw linear forwards;
     animation: 0.5s draw linear forwards;
 }
+
+
+/* CUSTOM ALERT */
+.alert {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: solid rgb(180, 180, 180) 1px;
+}

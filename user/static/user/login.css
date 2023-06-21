@@ -37,11 +37,11 @@
 .panel {
     width: 300px;
     position: absolute;
-    top: 35%;
+    top: 30%;
     padding: 15px;
     text-align: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.7);
 }
 @media (min-width: 992px) {
     .panel {
@@ -104,4 +104,10 @@ button {
 }
 .decorator:hover {
     color: grey;
+}
+
+
+/* INPUTS */
+.transparent-input {
+    background-color: rgba(255, 255, 255, 0.8);
 }

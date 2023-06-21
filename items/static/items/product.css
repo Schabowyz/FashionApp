@@ -82,3 +82,30 @@ svg {
     height: 100%;
     object-fit: cover;
 }
+
+
+/* DESCRIPTION */
+table {
+    word-wrap: break-word;
+    border-collapse: collapse;
+    width: 100%;
+}
+table td, table th {
+    border: none;
+    padding: 6px;
+    text-align: center;
+}
+table tr:hover {background-color: #eeeeee;}
+svg {
+    color: black;
+}
+.align-left {
+    text-align: left;
+}
+.align-right {
+    text-align: right;
+}
+
+.description {
+    padding-bottom: 10px;
+}

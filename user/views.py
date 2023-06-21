@@ -28,7 +28,6 @@ def register(request):
     if request.method == "POST":
         if user_register(request):
             return HttpResponseRedirect(reverse("base:index"))
-    messages.info(request, "Please take a note that you can sign in as a demo user to try out the application. Credentials can be found in login page.")
     return render(request, "user/register.html", {
         "cart": Cart.get_cart_items(request)
     })

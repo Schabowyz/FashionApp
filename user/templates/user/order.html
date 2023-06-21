@@ -27,7 +27,8 @@
 
         /* ITEMS TABLE */
         table {
-            word-wrap:break-word;
+            table-layout: fixed;
+            word-wrap: break-word;
             border-collapse: collapse;
             width: 100%;
         }
@@ -122,6 +123,20 @@
             animation: 0.5s draw linear forwards;
         }
 
+
+        /* TEXT ALIGNMENT */
+        .align-center {
+            text-align: center;
+            color: gray;
+        }
+        .align-left {
+            text-align: left;
+            width: 110px;
+        }
+        .align-right {
+            text-align: right;
+        }
+
     </style>
 
 
@@ -138,13 +153,54 @@
                     <!-- ORDER INFO -->
                     <div>
                         <p>
-                            <h7>SHIPMENT:</h7>
+                            <h7>SHIPMENT DETAILS:</h7>
                         </p>
                     </div>
                     <hr class="dropdown-divider">
-                    <div>
-                        SHIPMENT DETAILS
-                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td scope="col" class="align-left">email:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.email }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">first name:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.first_name }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">last name:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">street:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.street }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">house number:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.number }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">city:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.city }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">postal code:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.postal }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="col" class="align-left">country:</td>
+                                <td scope="col" class="align-right">{{ request.session.user_info.country }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <p class="align-center">
+                        Information<br><br>
+                        Please take a note that payment system works in developer mode, therefore any transactions done with it won't be real. You can use demo card credentials:<br>
+                        number: <i>4242 4242 4242 4242</i><br>
+                        date: <i>any date after today's</i><br>
+                        cvv: <i>any 3 digits</i>
+                    </p>
                     <!-- BUY BUTTON -->
                     <br><br><br>
                     <div class="svg-wrapper">
@@ -200,19 +256,9 @@
         </div>
     </div>
 
+{% endblock %}
 
-    <!-- Modal -->
-    <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-body">
-                PAYPAL BUTTON 1<br>
-                PAYPAL BUTTON 2<br>
-                PAYPAL BUTTON 3<br>
-                paypal coment<br>
-            </div>
-        </div>
-        </div>
-    </div>
 
+{% block footer %}
+    {% include "footer.html" %}
 {% endblock %}
