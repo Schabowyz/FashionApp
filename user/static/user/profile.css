@@ -36,6 +36,8 @@
 
 /* ORDERS TABLE */
 table {
+    table-layout: fixed;
+    word-wrap: break-word;
     border-collapse: collapse;
     width: 100%;
 }
@@ -46,6 +48,9 @@ table td, table th {
 table tr:hover {background-color: #eeeeee;}
 svg {
     color: black;
+}
+.small-cell {
+    width: 60px;
 }
 
 

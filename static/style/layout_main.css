@@ -1,0 +1,97 @@
+/* PAGE STYLING */
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Andale Mono';
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.layout-main {
+    flex-grow: 1;
+}
+
+
+/* FOOTER STYLING */
+
+.layout-footer {
+    margin-top: 40px;
+    background: rgb(0, 0, 0);
+}
+
+.footer-text {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    width: inherit;
+    text-align: center;
+    color: gray;
+}
+
+.footer-text a {
+    color: gray;
+    text-decoration: underline 1px gray;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    z-index: 9999;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.nav-link {
+    font-size: 18px;
+}
+
+.custom-transparent {
+    background-color: rgb(0, 0, 0, 0.0);
+}
+@media (max-width: 992px) {
+    .custom-transparent {
+        background-color: rgb(0, 0, 0, 0.1);
+    }
+}
+
+.custom-almost-transparent {
+    background-color: rgb(0, 0, 0, 0.1);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-onclick:active {
+    color: rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dropdown-menu {
+    margin-top: 9px;
+}
+
+
+/* ALERTS */
+
+.alert-container {
+    width: 100%;
+    max-width: 1300px;
+}
+.positioning {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 96%;
+    max-width: inherit;
+    position: fixed;
+    z-index: 9000;
+    margin-top: 100px;
+}
+.alert {
+    background-color: rgb(255, 255, 255);
+    border: solid rgb(100, 100, 100) 1px;
+    color: rgb(0, 0, 0);
+}

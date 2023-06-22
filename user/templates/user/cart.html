@@ -6,160 +6,7 @@
 
 {% block body %}
 
-    <!-- <link href="{% static 'user/cart.css' %}" rel="stylesheet">  -->
-
-    <style>
-
-        /* NAVBAR */
-        .navbar-space {
-            width: 100%;
-            height: 90px;
-            background-color: transparent;
-        }
-        .custom-transparent {
-            background-color: rgb(0, 0, 0);
-        }
-        .custom-almost-transparent {
-            background-color: rgb(0, 0, 0, 0.5);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-
-        /* CHANGE AMOUNT BUTTON */
-        button {
-            border: none;
-            background-color: transparent;
-        }
-
-
-        /* ITEMS TABLE */
-        table {
-            word-wrap:break-word;
-            border-collapse: collapse;
-            width: 100%;
-        }
-        table td, table th {
-            border: none;
-            padding: 6px;
-            text-align: center;
-        }
-        table tr:hover {background-color: #eeeeee;}
-        svg {
-            color: black;
-        }
-        .image-wrapper {
-            width: 200px;
-            height: 100px;
-            padding-right: 1%;
-        }
-        .item-image {
-            overflow: hidden;
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        /* DECORATOR REMOVAL */
-        .no-decorator {
-            text-decoration: none;
-            color: black;
-        }
-        .no-decorator:hover {
-            text-decoration: underline;
-            color: black;
-        }
-
-
-        /* BUY BUTTON */
-        svg {
-            align-items: center;
-        }
-        .svg-wrapper {
-            height: 60px;
-            margin: 0 auto;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-        }
-        .shape {
-            fill: transparent;
-            stroke-dasharray: 100% 200%;
-            stroke-dashoffset: -190%;
-            stroke-width: 8px;
-            stroke: #000000;
-        }
-        @media (max-width: 768px) {
-            .shape {
-                stroke-dashoffset: -180%;
-            }
-        }
-        @media (max-width: 992px) {
-            .shape {
-                stroke-dashoffset: -175%;
-            }
-        }
-        .text {
-            text-align: center;
-            color: #000000;
-            font-size: 22px;
-            letter-spacing: 8px;
-            line-height: 32px;
-            position: relative;
-            top: -48px;
-        }
-        @keyframes draw {
-            100% {
-                stroke-dasharray: 320%;
-                stroke-dashoffset: 0;
-                stroke-width: 2px;
-            }
-        }
-        @media (min-width: 992px) {
-            @keyframes draw {
-                100% {
-                    stroke-dasharray: 350%;
-                    stroke-dashoffset: 0;
-                    stroke-width: 2px;
-                }
-            }
-        }
-        .svg-wrapper:hover .shape {
-            -webkit-animation: 0.5s draw linear forwards;
-            animation: 0.5s draw linear forwards;
-        }
-
-
-        /* ORDER INPUTS */
-        .order-input {
-            border: none;
-            border-radius: 0px;
-            border-bottom: 1px solid rgb(156, 156, 156);
-        }
-        .order-input:disabled {
-            background-color: transparent;
-            color: rgb(150, 150, 150);
-        }
-
-
-        /* HIDE ARROWS IN NUMBER INPUT */
-        /* Chrome, Safari, Edge, Opera */
-        .no-arrows::-webkit-outer-spin-button,
-        .no-arrows::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        /* Firefox */
-        .no-arrows[type=number] {
-            -moz-appearance: textfield;
-            border: none;
-            border-radius: 0px;
-            border-bottom: 1px solid rgb(156, 156, 156);
-        }
-
-
-
-    </style>
+    <link href="{% static 'user/cart.css' %}" rel="stylesheet"> 
 
     <div class="navbar-space"></div>
         
@@ -217,11 +64,18 @@
                                     <div class="mb-3">
                                         <input type="text" class="form-control order-input" name="country" value="{{ user_address.country }}" placeholder="country">
                                     </div>
-                                {% if request.user.is_authenticated %}
+                                {% if request.user.is_authenticated and request.user.username != "demo@user.com" %}
                                     <div class="mb-3 form-check">
                                         <input type="checkbox" class="form-check-input" id="remember" name="remember" value="true">
                                         <label class="form-check-label" for="remember">update my profile</label>
                                     </div>
+                                {% endif %}
+                                {% if request.user.username == "demo@user.com" %}
+                                    <br>
+                                    <p class="align-center">
+                                        Information<br><br>
+                                        As a demo user, you won't be able to recive order confirmation email, although the order will still go through.
+                                    </p>
                                 {% endif %}
                             </div>
                             <!-- BUY BUTTON -->
@@ -263,8 +117,8 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
                                         </svg>
-                                    </button>
-                                    {{ item.quantity }}
+                                    </button><br>
+                                    {{ item.quantity }}<br>
                                     <button data-product="{{ item.item_id.id }}" data-action="remove" class="update-cart">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>

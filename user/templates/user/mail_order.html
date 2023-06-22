@@ -34,7 +34,7 @@
                         </tr>
                         {% for item in items %}
                             <tr>
-                                <td scope="col" style="border: none; padding: 6px; text-align: left;"><a style="color: black;" href="{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
+                                <td scope="col" style="border: none; padding: 6px; text-align: left;"><a style="color: black;" href="http://127.0.0.1:8000/{% url 'items:product' item_id=item.item_id.id %}">{{ item.item_id.name }}</a></td>
                                 <td scope="col" style="border: none; padding: 6px; text-align: center;">{{ item.quantity }}</td>
                                 <td scope="col" style="border: none; padding: 6px; text-align: center;">{{ item.item_id.current_price|floatformat:2 }}€</td>
                                 <td scope="col" style="border: none; padding: 6px; text-align: center;">{{ item.overall_price|floatformat:2 }}€</td>

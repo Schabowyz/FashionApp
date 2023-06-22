@@ -7,7 +7,7 @@ from django.urls import reverse
 
 import stripe
 
-from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account, get_cart_info,save_form_data, buy_user, buy_guest, order_email
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account, get_cart_info,save_form_data, buy_user, buy_guest, order_email, check_demo_user
 from .models import Cart, Order
 
 
@@ -35,6 +35,9 @@ def register(request):
 
 def request_renew_password(request):
     if request.method == "POST":
+        if request.POST["email"] == "demo@user.com":
+            messages.error(request, "you can't request password change for demo user")
+            return HttpResponseRedirect(reverse("user:request_renew"))
         if renewEmail(request):
             return HttpResponseRedirect(reverse("base:index"))
     return render(request, "user/request_renew_password.html", {
@@ -141,7 +144,7 @@ def payment_successful(request):
     order = Order.objects.get(id=request.GET.get("order_id", None))
     order.status = settings.ORDER_STATUSES[2]
     order.save()
-    messages.success(request, "transaction successful, your order was created")
+    messages.success(request, "transaction successful, order created")
 
     order_email(request, order.email, order, order.first_name + " " + order.last_name)
 
@@ -164,30 +167,35 @@ def activate(request, uidb64, token):
 
 @login_required
 def user_change_password(request):
-    change_password(request)
+    if not check_demo_user(request):
+        change_password(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
 
 @login_required
 def user_change_info(request):
-    change_info(request)
+    if not check_demo_user(request):
+        change_info(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
 
 @login_required
 def user_change_email(request):
-    change_email(request)
+    if not check_demo_user(request):
+        change_email(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
 
 @login_required
 def user_change_address(request):
-    change_address(request)
+    if not check_demo_user(request):
+        change_address(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
 
 @login_required
 def user_delete_account(request):
-    if delete_account(request):
-        return HttpResponseRedirect(reverse("base:index"))
+    if not check_demo_user(request):
+        if delete_account(request):
+            return HttpResponseRedirect(reverse("base:index"))
     return HttpResponseRedirect(reverse("user:profile"))

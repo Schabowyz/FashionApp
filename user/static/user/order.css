@@ -13,6 +13,45 @@
 }
 
 
+/* ITEMS TABLE */
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    border-collapse: collapse;
+    width: 100%;
+}
+table td, table th {
+    border: none;
+    padding: 6px;
+    text-align: center;
+}
+table tr:hover {background-color: #eeeeee;}
+svg {
+    color: black;
+}
+.image-wrapper {
+    width: 200px;
+    height: 100px;
+    padding-right: 1%;
+}
+.item-image {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* DECORATOR REMOVAL */
+.no-decorator {
+    text-decoration: none;
+    color: black;
+}
+.no-decorator:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+
 /* BUY BUTTON */
 svg {
     align-items: center;
@@ -77,39 +116,15 @@ button {
 }
 
 
-/* IMAGES */
-.top-padding {
-    padding-top: 5px;
-}
-.top-padding img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-
-/* DESCRIPTION */
-table {
-    word-wrap: break-word;
-    border-collapse: collapse;
-    width: 100%;
-}
-table td, table th {
-    border: none;
-    padding: 6px;
+/* TEXT ALIGNMENT */
+.align-center {
     text-align: center;
-}
-table tr:hover {background-color: #eeeeee;}
-svg {
-    color: black;
+    color: gray;
 }
 .align-left {
     text-align: left;
+    width: 110px;
 }
 .align-right {
     text-align: right;
-}
-
-.description {
-    padding-bottom: 10px;
 }

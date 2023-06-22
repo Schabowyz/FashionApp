@@ -59,7 +59,7 @@
                     <div>
                         <table>
                             <tr>
-                                <td>email:</td>
+                                <td class="small-cell">email:</td>
                                 <td class="text-end">{{ request.user.email }}</td>
                             </tr>
                         </table>
@@ -100,30 +100,46 @@
                             </button>
                         </p>
                     </div>
-                    <table>
-                        <tr>
-                            <td>street:</td>
-                            <td class="text-end">{{ user_address.street }}</td>
-                        </tr>
-                        <tr>
-                            <td>house number:</td>
-                            <td class="text-end">{{ user_address.number }}</td>
-                        </tr>
-                        <tr>
-                            <td>postal code:</td>
-                            <td class="text-end">{{ user_address.postal }}</td>
-                        </tr>
-                        <tr>
-                            <td>city:</td>
-                            <td class="text-end">{{ user_address.city }}</td>
-                        </tr>
-                        <tr>
-                            <td>country:</td>
-                            <td class="text-end">{{ user_address.country }}</td>
-                        </tr>
-                    </table>
+                    <div>
+                        <table>
+                            <tr>
+                                <td>street:</td>
+                                <td class="text-end">{{ user_address.street }}</td>
+                            </tr>
+                            <tr>
+                                <td>house number:</td>
+                                <td class="text-end">{{ user_address.number }}</td>
+                            </tr>
+                            <tr>
+                                <td>postal code:</td>
+                                <td class="text-end">{{ user_address.postal }}</td>
+                            </tr>
+                            <tr>
+                                <td>city:</td>
+                                <td class="text-end">{{ user_address.city }}</td>
+                            </tr>
+                            <tr>
+                                <td>country:</td>
+                                <td class="text-end">{{ user_address.country }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr class="dropdown-divider">
+                    <!-- DELETE ACCOUNT -->
+                    <div>
+                        <p><h7>DELETE ACCOUNT:</h7>
+                            <button class="edit-button" type="button" data-bs-toggle="modal" data-bs-target="#modal_delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                </svg>
+                            </button>
+                        </p>
+                    </div>
+                    <br><br>
                 </div>
             </div>
+
 
             <div class="col-lg-9 top-padding order-2">
                 <div>
@@ -314,6 +330,34 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-secondary">save</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="modal_delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">DELETE ACCOUNT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'user:delete' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="input-password" class="form-label">password:</label>
+                        <input id="input-password" type="password" class="form-control" name="password" placeholder="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="input-repeat_password" class="form-label">repeat password:</label>
+                        <input id="input-repeat_password" type="password" class="form-control" name="repeat_password" placeholder="repeat password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">delete</button>
                 </div>
             </form>
         </div>

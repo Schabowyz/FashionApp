@@ -17,25 +17,24 @@ def search(request, page):
     gender_filters = ()
     category_filters = ()
     search = ""
+    
+    for gender in genders:
+        if request.GET.get(gender) == "yes":
+            genders[gender] = True
+            gender_filters += (gender,)
 
-    if request.method == "POST":
+    for category in categories:
+        if request.GET.get(category) == "yes":
+            categories[category] = True
+            category_filters += (category,)
+    
+    if request.GET.get("query"):
+        search = request.GET.get("query")
 
-        genders = get_genders_dict()
-        for gender in genders.keys():
-            if request.POST.get(gender) == "yes":
-                genders[gender] = True
-                gender_filters += (gender,)
-
-        categories = get_categories_dict()
-        for category in categories.keys():
-            if request.POST.get(category) == "yes":
-                categories[category] = True
-                category_filters += (category,)
-
-        if request.POST.get("query"):
-            search = request.POST.get("query")
+    parameters = request.get_full_path()[15:]
     
     return render(request, "items/search.html", {
+        "parameters": parameters,
         "query": search,
         "genders": genders,
         "categories": categories,

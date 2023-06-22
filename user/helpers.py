@@ -43,6 +43,17 @@ def get_user_orders(request):
 
 
 
+##############################    CHECKS    ##############################
+
+
+def check_demo_user(request):
+    if request.user.username == "demo@user.com":
+        messages.error(request, "you can't change demo user's credentials")
+        return True
+    return False
+
+
+
 ##############################    USER ACCOUNT SERVICE    ##############################
 
 
@@ -90,7 +101,7 @@ def user_activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        messages.success(request, "your account was activated and you're logged in")
+        messages.success(request, "account activated, you're logged in now")
     else:
         messages.error(request, "activation link is invalid")
 
@@ -258,12 +269,17 @@ def save_form_data(request):
 
     if request.POST.get("remember") == "true":
         user_address = UserAddress.objects.get(user_id=request.user.id)
+        user = User.objects.get(id=request.user.id)
+        user.first_name = request.POST["first_name"]
+        user.last_name = request.POST["last_name"]
         user_address.country = request.POST["country"]
         user_address.city = request.POST["city"]
         user_address.postal = request.POST["postal"]
         user_address.street = request.POST["street"]
         user_address.number = request.POST["number"]
+        user.save()
         user_address.save()
+        messages.success(request, "profile information updated")
 
     return
 
@@ -301,7 +317,7 @@ def buy_user(request):
     return order
 
 
-def buy_guest(request):                                                                 # DODAĆ USUWANIE CART COOKIE
+def buy_guest(request):
     # Creates entry in orders db
     order = Order(
         user_id = None,
@@ -340,6 +356,6 @@ def order_email(request, to_email, order, name):
     email = EmailMessage(mail_subject, message, to=[to_email])
     email.content_subtype = "html"
     if email.send():
-        messages.success(request, "email with your order was sent to your mailbox")
+        return True
     else:
-        messages.error(request, "something went wrong, email with your order wasn't send")
+        return False
