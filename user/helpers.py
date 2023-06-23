@@ -118,7 +118,7 @@ def activateEmail(request, user, to_email):
     })
     email = EmailMessage(mail_subject, message, to=[to_email])
     if email.send():
-        messages.success(request, "activation email was sent to your mailbox")
+        messages.success(request, "activation email was sent to your mailbox, check spam folder")
     else:
         messages.error(request, "couldn't send activation email")
 
@@ -157,7 +157,7 @@ def renewEmail(request):
     })
     email = EmailMessage(mail_subject, message, to=[to_email])
     if email.send():
-        messages.success(request, "password renewal link was sent to your mailbox")
+        messages.success(request, "password renewal link was sent to your mailbox, check spam folder")
         return True
     else:
         messages.error(request, "couldn't send password renewal email")
@@ -356,6 +356,6 @@ def order_email(request, to_email, order, name):
     email = EmailMessage(mail_subject, message, to=[to_email])
     email.content_subtype = "html"
     if email.send():
-        return True
+        messages.success(request, "confirmation email sent, check spam folder")
     else:
-        return False
+        messages.error(request, "failed to send confirmation email")

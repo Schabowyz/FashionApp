@@ -58,6 +58,8 @@ def renew_password(request, uidb64, token):
 
 @login_required
 def profile(request):
+    messages.success(request, "this is first message")
+    messages.success(request, "this is second message")
     return render(request, "user/profile.html", {
         "user_address": get_user_address(request),
         "orders": get_user_orders(request),
@@ -66,6 +68,7 @@ def profile(request):
 
 
 def cart(request):
+    messages.success(request, "this is single message")
     if request.method == "POST":
         save_form_data(request)
         return HttpResponseRedirect(reverse("user:order"))

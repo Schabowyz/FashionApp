@@ -84,11 +84,12 @@ body {
 .positioning {
     left: 50%;
     transform: translate(-50%, -50%);
+    height: 100px;
     width: 96%;
     max-width: inherit;
     position: fixed;
     z-index: 9000;
-    margin-top: 100px;
+    top: 120px
 }
 .alert {
     background-color: rgb(255, 255, 255);

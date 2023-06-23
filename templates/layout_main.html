@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
 
-        <title>ShopApp: {% block title %}{% endblock %}</title>
+        <title>FashionApp: {% block title %}{% endblock %}</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,7 +75,7 @@
             <!-- Page navigation -->
             <nav class="navbar navbar-expand-lg navbar-dark custom-transparent fixed-top">
                 <div class="container">
-                    <a class="navbar-brand" href="{% url 'base:index' %}">M O D A W C H U J</a>
+                    <a class="navbar-brand" href="{% url 'base:index' %}">F A S H I O N A P P</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -128,11 +128,13 @@
             <!-- Alert messages -->
             {% if messages %}
             <div class="container alert-container">
-                <div class="alert alert-secondary alert-dismissible fade show positioning" role="alert">
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="positioning">
+                    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 </div>
             </div>
             {% endif %}
