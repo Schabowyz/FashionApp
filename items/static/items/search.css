@@ -118,7 +118,7 @@ input[type="checkbox"]:checked + label:before {
 }
 .cta .text {
     color: white;
-    bottom: -24%;
+    bottom: -18%;
     padding: 15px;
     position: absolute;
     transition: 0.2s ease-in-out;
@@ -126,12 +126,12 @@ input[type="checkbox"]:checked + label:before {
 }
 @media (max-width: 576px){
     .cta .text {
-        bottom: -18%;
+        bottom: -14%;
     }
 }
 @media (min-width: 1400px){
     .cta .text {
-        bottom: -18%;
+        bottom: -14%;
     }
 }
 .cta .text h2 {

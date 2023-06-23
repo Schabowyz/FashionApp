@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -17,7 +18,7 @@ def items_page(page_number, gender_filters, category_filters, search):
         if search:
             query.add(Q(name__icontains=search), Q.AND)
         items = Item.objects.filter(query)
-    paginator = Paginator(items, 6)
+    paginator = Paginator(items, 24)
     page = paginator.get_page(page_number)
     return page
 
@@ -36,3 +37,12 @@ def get_categories_dict():
     for category in pos_categories:
         categories[category[0]] = False
     return categories
+
+
+def get_search_filters(request):
+    filters = request.get_full_path()[14:]
+    for i in range(len(filters)):
+        if filters[i] == "?":
+            filters = filters[i:]
+            break
+    return filters

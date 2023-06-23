@@ -16,9 +16,9 @@ class UserAddress(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     country = models.CharField(max_length=56)
     city = models.CharField(max_length=128)
-    postal = models.IntegerField()
+    postal = models.CharField(max_length=16)
     street = models.CharField(max_length=128)
-    number = models.CharField(max_length=10)
+    number = models.CharField(max_length=16)
 
 
 class Order(models.Model):
@@ -26,14 +26,14 @@ class Order(models.Model):
     stripe_id = models.CharField(max_length=500, null=True)
     email = models.CharField(max_length=128)
     date = models.DateTimeField()
-    status = models.CharField(max_length=16, default=settings.ORDER_STATUSES[0])
+    status = models.CharField(max_length=32, default=settings.ORDER_STATUSES[0])
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     country = models.CharField(max_length=56)
     city = models.CharField(max_length=128)
-    postal = models.IntegerField()
+    postal = models.CharField(max_length=16)
     street = models.CharField(max_length=128)
-    number = models.CharField(max_length=10)
+    number = models.CharField(max_length=16)
 
     def overall_price(self):
         price = 0.00

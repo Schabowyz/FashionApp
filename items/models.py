@@ -37,12 +37,6 @@ class Item(models.Model):
     gender = models.CharField(choices=GENDERS, max_length=16)
     category = models.CharField(choices=CATEGORIES, max_length=16)
     description = models.CharField(max_length=2048)
-    quantity = models.IntegerField()
     image = models.ImageField(upload_to=path_and_rename)
     visibility = models.BooleanField(default=True)
     current_price = models.FloatField(default=0)
-
-class Price(models.Model):
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
-    date = models.DateField()
-    price = models.FloatField()

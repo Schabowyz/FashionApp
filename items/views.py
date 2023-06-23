@@ -7,7 +7,7 @@ import json
 
 from .models import Item
 from user.models import Cart
-from .helpers import items_page, get_genders_dict, get_categories_dict
+from .helpers import items_page, get_genders_dict, get_categories_dict, get_search_filters
 
 # Create your views here.
 def search(request, page):
@@ -31,7 +31,7 @@ def search(request, page):
     if request.GET.get("query"):
         search = request.GET.get("query")
 
-    parameters = request.get_full_path()[15:]
+    parameters = get_search_filters(request)
     
     return render(request, "items/search.html", {
         "parameters": parameters,
@@ -53,8 +53,8 @@ def updateItem(request):
 
     cart = Cart.objects.get_or_create(user_id=User.objects.get(id=request.user.id), item_id=Item.objects.get(id=data['productId']))[0]
     if data["action"] == "add":
-        messages.success(request, "product was successfully added to cart")
         cart.quantity += 1
+        messages.success(request, "product was successfully added to cart")
     elif data["action"] == "remove":
         messages.success(request, "product was successfully removed from cart")
         cart.quantity -= 1

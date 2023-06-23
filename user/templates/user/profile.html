@@ -282,6 +282,13 @@
                     <div class="mb-3">
                         <label for="input-first_name" class="form-label">password:</label>
                         <input id="input-first_name" type="password" class="form-control" name="password" placeholder="password">
+                        <div id="passwordHelp" class="form-text">
+                            <ul>
+                                <li>at least 8 characters long</li>
+                                <li>not similar to email address</li>
+                                <li>not among commonly used passwords</li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="input-last_name" class="form-label">repeat password:</label>
@@ -317,7 +324,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="input-postal" class="form-label">postal code:</label>
-                        <input id="input-postal" type="number" class="form-control no-arrows" name="postal" placeholder="postal code" value="{{ user_address.postal }}">
+                        <input id="input-postal" type="text" class="form-control" name="postal" placeholder="postal code" value="{{ user_address.postal }}">
                     </div>
                     <div class="mb-3">
                         <label for="input-city" class="form-label">city:</label>

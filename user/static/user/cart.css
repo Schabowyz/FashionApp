@@ -130,22 +130,6 @@ svg {
 }
 
 
-/* HIDE ARROWS IN NUMBER INPUT */
-/* Chrome, Safari, Edge, Opera */
-.no-arrows::-webkit-outer-spin-button,
-.no-arrows::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-/* Firefox */
-.no-arrows[type=number] {
-    -moz-appearance: textfield;
-    border: none;
-    border-radius: 0px;
-    border-bottom: 1px solid rgb(156, 156, 156);
-}
-
-
 /* TEXT ALIGNMENT */
 .align-center {
     text-align: center;

@@ -7,8 +7,9 @@ from django.urls import reverse
 
 import stripe
 
-from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account, get_cart_info,save_form_data, buy_user, buy_guest, order_email, check_demo_user
-from .models import Cart, Order
+from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account
+from .helpers import get_cart_info,save_form_data, buy_user, buy_guest, order_email, check_demo_user, check_password, check_username
+from .models import Cart, Order, OrderedItems
 
 
 
@@ -58,8 +59,6 @@ def renew_password(request, uidb64, token):
 
 @login_required
 def profile(request):
-    messages.success(request, "this is first message")
-    messages.success(request, "this is second message")
     return render(request, "user/profile.html", {
         "user_address": get_user_address(request),
         "orders": get_user_orders(request),
@@ -68,7 +67,6 @@ def profile(request):
 
 
 def cart(request):
-    messages.success(request, "this is single message")
     if request.method == "POST":
         save_form_data(request)
         return HttpResponseRedirect(reverse("user:order"))
@@ -85,11 +83,15 @@ def order(request):
     # Stripe session and payment
     if request.method == "POST":
 
-        # Creates database entry for the order
+        # Creates database entry for the order or returns to cart if theres not enough of ordered item
         if request.user.is_authenticated:
             order = buy_user(request)
         else:
             order = buy_guest(request)
+        if not order:
+            cart_info = get_cart_info(request)
+            cart_info["user_address"] = request.session["user_info"]
+            return render(request, "user/cart.html", cart_info)
 
         # Gets items from cart to stripe fromat
         line_items = []
@@ -151,6 +153,11 @@ def payment_successful(request):
 
     order_email(request, order.email, order, order.first_name + " " + order.last_name)
 
+    for item in OrderedItems.objects.filter(order_id=order.id):
+        item.item_id.quantity -= item.quantity
+        item.item_id.save()
+
+
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("user:profile"))
     else:
@@ -170,7 +177,7 @@ def activate(request, uidb64, token):
 
 @login_required
 def user_change_password(request):
-    if not check_demo_user(request):
+    if not check_demo_user(request) and not check_password(request):
         change_password(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
@@ -184,7 +191,7 @@ def user_change_info(request):
 
 @login_required
 def user_change_email(request):
-    if not check_demo_user(request):
+    if not check_demo_user(request) and not check_username(request):
         change_email(request)
     return HttpResponseRedirect(reverse("user:profile"))
 

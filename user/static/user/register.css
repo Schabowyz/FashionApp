@@ -113,19 +113,6 @@ button {
 }
 
 
-/* HIDE ARROWS IN NUMBER INPUT */
-/* Chrome, Safari, Edge, Opera */
-.no-arrows::-webkit-outer-spin-button,
-.no-arrows::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-/* Firefox */
-.no-arrows[type=number] {
-    -moz-appearance: textfield;
-}
-
-
 /* INPUTS */
 .transparent-input {
     background-color: rgba(255, 255, 255, 0.8);

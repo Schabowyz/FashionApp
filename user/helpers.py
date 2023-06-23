@@ -3,10 +3,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.validators import validate_email
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -53,6 +55,35 @@ def check_demo_user(request):
     return False
 
 
+def check_username(request):
+    error = False
+    try:
+        validate_email(request.POST["email"])
+    except ValidationError:
+        messages.error(request, "invalid email address")
+        error = True
+    try:
+        User.objects.get(username=request.POST["email"])
+        messages.error(request, "email already taken")
+        error = True
+    except ObjectDoesNotExist:
+        pass
+    return error
+    
+
+def check_password(request):
+    error = False
+    if request.POST["password"] != request.POST["repeat_password"]:
+        messages.error(request, "passwords don't match")
+        error = True
+    try:
+        validate_password(request.POST["password"])
+    except ValidationError:
+        messages.error(request, "password doesn't meet the requirements")
+        error = True
+    return error
+
+
 
 ##############################    USER ACCOUNT SERVICE    ##############################
 
@@ -83,11 +114,20 @@ def user_logout(request):
 
 # DODAĆ CHECKI
 def user_register(request):
-    user = User.objects.create_user(request.POST["username"], request.POST["username"], request.POST["password"])
-    user.is_active=False
-    user.save()
-    activateEmail(request, user, user.email)
-    return True
+    error = False
+    if check_username(request):
+        error = True
+    if check_password(request):
+        error = True
+
+    if not error:
+        user = User.objects.create_user(request.POST["email"], request.POST["email"], request.POST["password"])
+        user.is_active=False
+        user.save()
+        activateEmail(request, user, user.email)
+        return True
+    else:
+        return False
 
 
 def user_activate(request, uidb64, token):
@@ -193,7 +233,6 @@ def change_email(request):
 
 def change_address(request):
     address = UserAddress.objects.get(user_id=request.user.id)
-    print(request.POST["country"])
     address.country = request.POST["country"]
     address.city = request.POST["city"]
     address.postal = request.POST["postal"]
@@ -268,7 +307,10 @@ def save_form_data(request):
     }
 
     if request.POST.get("remember") == "true":
-        user_address = UserAddress.objects.get(user_id=request.user.id)
+        try:
+            user_address = UserAddress.objects.get(user_id=request.user.id)
+        except ObjectDoesNotExist:
+            user_address = UserAddress.objects.create()
         user = User.objects.get(id=request.user.id)
         user.first_name = request.POST["first_name"]
         user.last_name = request.POST["last_name"]
