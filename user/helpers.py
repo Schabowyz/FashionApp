@@ -284,7 +284,10 @@ def get_cart_info(request):
             price += item["item_overall_price"]
             quantity += item["quantity"]
         cart = (cart, quantity)
-        user_address = request.session["user_info"]
+        try:
+            user_address = request.session["user_info"]
+        except:
+            user_address = None
 
     return {"cart": cart, "price": price, "user_address": user_address}
 
