@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 import json
 
@@ -63,5 +64,16 @@ def updateItem(request):
 
     if cart.quantity <= 0:
         cart.delete()
+
+    return JsonResponse("Item added/removed", safe=False)
+
+@csrf_exempt
+def updateItemGuest(request):
+    data = json.loads(request.body)
+
+    if data["action"] == "add":
+        messages.success(request, "product was successfully added to cart")
+    elif data["action"] == "remove":
+        messages.success(request, "product was successfully removed from cart")
 
     return JsonResponse("Item added/removed", safe=False)

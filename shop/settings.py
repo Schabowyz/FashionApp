@@ -26,11 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "fashionappdeploy.fly.dev"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "fashionappshop.fly.dev"]
 
-CSRF_TRUSTED_ORIGINS = ["http://fashionappdeploy.fly.dev", "https://fashionappdeploy.fly.dev"]
+CSRF_TRUSTED_ORIGINS = ["http://fashionappshop.fly.dev", "https://fashionappshop.fly.dev"]
 
 # Application definition
 

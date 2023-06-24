@@ -112,4 +112,6 @@ svg {
 
 .description {
     padding-bottom: 10px;
+    text-align: justify;
+    text-justify: auto;
 }
