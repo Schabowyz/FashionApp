@@ -213,6 +213,7 @@ AWS_ACCESS_KEY_ID = aws_access
 AWS_SECRET_ACCESS_KEY = aws_secret
 AWS_STORAGE_BUCKET_NAME = aws_bucket_name
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_REGION_NAME = "eu-north-1"
 
 
 
