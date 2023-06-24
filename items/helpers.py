@@ -18,7 +18,7 @@ def items_page(page_number, gender_filters, category_filters, search):
         if search:
             query.add(Q(name__icontains=search), Q.AND)
         items = Item.objects.filter(query)
-    paginator = Paginator(items, 24)
+    paginator = Paginator(items, 18)
     page = paginator.get_page(page_number)
     return page
 
