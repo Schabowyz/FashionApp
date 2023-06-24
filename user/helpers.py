@@ -292,10 +292,16 @@ def get_cart_info(request):
 
 # Order form user info saving
 def save_form_data(request):
+    valid_email = True
     if request.user.is_authenticated:
         email = request.user.email
     else:
         email = request.POST["email"]
+        try:
+            validate_email(email)
+        except:
+            valid_email = False
+            messages.error(request, "invalid email address")
     request.session["user_info"] = {
         "email": email,
         "first_name": request.POST["first_name"],
@@ -311,21 +317,30 @@ def save_form_data(request):
         if not value:
             messages.error(request, "please provide missing information")
             return False
+    if not valid_email:
+        return False
 
     if request.POST.get("remember") == "true":
-        try:
-            user_address = UserAddress.objects.get(user_id=request.user.id)
-        except ObjectDoesNotExist:
-            user_address = UserAddress.objects.create()
         user = User.objects.get(id=request.user.id)
         user.first_name = request.POST["first_name"]
         user.last_name = request.POST["last_name"]
-        user_address.country = request.POST["country"]
-        user_address.city = request.POST["city"]
-        user_address.postal = request.POST["postal"]
-        user_address.street = request.POST["street"]
-        user_address.number = request.POST["number"]
         user.save()
+        try:
+            user_address = UserAddress.objects.get(user_id=user)
+            user_address.country = request.POST["country"]
+            user_address.city = request.POST["city"]
+            user_address.postal = request.POST["postal"]
+            user_address.street = request.POST["street"]
+            user_address.number = request.POST["number"]
+        except ObjectDoesNotExist:
+            user_address = UserAddress.objects.create(
+                user_id = user,
+                country = request.POST["country"],
+                city = request.POST["city"],
+                postal = request.POST["postal"],
+                street = request.POST["street"],
+                number = request.POST["number"],
+            )
         user_address.save()
         messages.success(request, "profile information updated")
 
