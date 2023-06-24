@@ -45,4 +45,7 @@ def get_search_filters(request):
         if filters[i] == "?":
             filters = filters[i:]
             break
-    return filters
+    if filters[0] == "?":
+        return filters
+    else:
+        return ""

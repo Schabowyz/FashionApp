@@ -95,11 +95,11 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": db["user"],
+        "NAME": db["name"],
         "USER": db["user"],
         "PASSWORD": db["pw"],
         "HOST": db["host"],
-        "PORT": "5432"
+        "PORT": db["port"]
     }
 }
 

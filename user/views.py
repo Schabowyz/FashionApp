@@ -153,11 +153,6 @@ def payment_successful(request):
 
     order_email(request, order.email, order, order.first_name + " " + order.last_name)
 
-    for item in OrderedItems.objects.filter(order_id=order.id):
-        item.item_id.quantity -= item.quantity
-        item.item_id.save()
-
-
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("user:profile"))
     else:
