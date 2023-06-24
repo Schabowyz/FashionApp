@@ -1,0 +1,33 @@
+/* ITEMS TABLE */
+table {
+    word-wrap:break-word;
+    border-collapse: collapse;
+    width: 100%;
+}
+table td, table th {
+    border: none;
+    padding: 6px;
+    text-align: center;
+}
+table tr:hover {background-color: #eeeeee;}
+.image-wrapper {
+    width: 200px;
+    height: 100px;
+    padding-right: 1%;
+}
+.item-image {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* DECORATOR REMOVAL */
+.no-decorator {
+    text-decoration: none;
+    color: black;
+}
+.no-decorator:hover {
+    text-decoration: underline;
+    color: black;
+}

@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
-from .keys import secret_key, google_email_address, google_app_key, stripe_secret_key, db
+from .keys import secret_key, google_email_address, google_app_key, stripe_secret_key, db, aws_access, aws_secret, aws_bucket_name
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,9 +28,9 @@ SECRET_KEY = secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "fashionappdeploy.fly.dev"]
 
-CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = ["http://fashionappdeploy.fly.dev", "https://fashionappdeploy.fly.dev"]
 
 # Application definition
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'whitenoise.runserver_nostatic',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -204,6 +205,15 @@ SOCIALACCOUNT_ADAPTER = "user.models.CustomSocialAccountAdapter"
 STRIPE_SECRET_KEY = stripe_secret_key
 PRODUCT_PRICE = 50
 REDIRECT_DOMAIN = "http://127.0.0.1:8000/user/order"
+
+
+# AWS MEDIA STORAGE WITH S3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = aws_access
+AWS_SECRET_ACCESS_KEY = aws_secret
+AWS_STORAGE_BUCKET_NAME = aws_bucket_name
+AWS_QUERYSTRING_AUTH = False
+
 
 
 # ORDER STATUSES SETTINGS
