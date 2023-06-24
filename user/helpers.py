@@ -284,7 +284,7 @@ def get_cart_info(request):
             price += item["item_overall_price"]
             quantity += item["quantity"]
         cart = (cart, quantity)
-        user_address = None
+        user_address = request.session["user_info"]
 
     return {"cart": cart, "price": price, "user_address": user_address}
 
@@ -306,6 +306,11 @@ def save_form_data(request):
         "country": request.POST["country"]
     }
 
+    for value in request.session["user_info"].values():
+        if not value:
+            messages.error(request, "please provide missing information")
+            return False
+
     if request.POST.get("remember") == "true":
         try:
             user_address = UserAddress.objects.get(user_id=request.user.id)
@@ -323,7 +328,7 @@ def save_form_data(request):
         user_address.save()
         messages.success(request, "profile information updated")
 
-    return
+    return True
 
 
 def buy_user(request):

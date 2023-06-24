@@ -40,13 +40,13 @@
                                     </div>
                                 {% else %}
                                     <div class="mb-3">
-                                        <input type="text" class="form-control order-input" name="email" placeholder="email address">
+                                        <input type="text" class="form-control order-input" name="email" value="{{ user_address.email }}" placeholder="email address">
                                     </div>
                                     <div class="mb-3">
-                                        <input type="text" class="form-control order-input" name="first_name" placeholder="first name">
+                                        <input type="text" class="form-control order-input" name="first_name" value="{{ user_address.first_name }}" placeholder="first name">
                                     </div>
                                     <div class="mb-3">
-                                        <input type="text" class="form-control order-input" name="last_name" placeholder="last name">
+                                        <input type="text" class="form-control order-input" name="last_name" value="{{ user_address.last_name }}" placeholder="last name">
                                     </div>
                                 {% endif %}
                                     <div class="mb-3">
@@ -102,7 +102,7 @@
                         <tr>
                             <td scope="col">product:</td>
                             <td scope="col"></td>
-                            <td scope="col">quantity:</td>
+                            <td scope="col">qt.:</td>
                             <td scope="col">piece price:</td>
                             <td scope="col">price:</td>
                         </tr>

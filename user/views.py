@@ -68,8 +68,8 @@ def profile(request):
 
 def cart(request):
     if request.method == "POST":
-        save_form_data(request)
-        return HttpResponseRedirect(reverse("user:order"))
+        if save_form_data(request):
+            return HttpResponseRedirect(reverse("user:order"))
     return render(request, "user/cart.html", get_cart_info(request))
 
 def order(request):
