@@ -2,5 +2,7 @@
     Hello {{ user.username }}!
 
     Welcome to FashionApp. Please click link below to confirm your registration:
-    http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}
+    {{ protocol }}{{ domain }}{% url 'user:activate' uidb64=uid token=token %}
+
+    If you didn't register in FashionApp, please ignore this message.
 {% endautoescape %}

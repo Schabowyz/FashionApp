@@ -140,8 +140,7 @@ def user_activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
-        messages.success(request, "account activated, you're logged in now")
+        messages.success(request, "account activated, you can log in now")
     else:
         messages.error(request, "activation link is invalid")
 
@@ -151,10 +150,10 @@ def activateEmail(request, user, to_email):
     mail_subject = "Account activation email"
     message = render_to_string("user/mail_activation.html", {
         "user": "user" ,
-        "domain": get_current_site(request).domain,
+        "domain": settings.DOMAIN,
         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
         "token": account_activation_token.make_token(user),
-        "protocol": "https" if request.is_secure() else "http"
+        "protocol": "https://" if request.is_secure() else "http://"
     })
     email = EmailMessage(mail_subject, message, to=[to_email])
     if email.send():
@@ -163,7 +162,6 @@ def activateEmail(request, user, to_email):
         messages.error(request, "couldn't send activation email")
 
 
-# DODAĆ CHECK PW
 def user_renew_password(request, uidb64, token):
     user = get_user_model()
     try:
@@ -190,7 +188,7 @@ def renewEmail(request):
     mail_subject = "Password renewal email"
     message = render_to_string("user/mail_renew_password.html", {
         "user": "user",
-        "domain": get_current_site(request).domain,
+        "domain": settings.DOMAIN,
         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
         "token": PasswordResetTokenGenerator().make_token(user),
         "protocol": "https" if request.is_secure() else "http"

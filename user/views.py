@@ -11,12 +11,13 @@ from .helpers import user_login, user_logout, user_register, get_user_address, g
 from .helpers import get_cart_info,save_form_data, buy_user, buy_guest, order_email, check_demo_user, check_password, check_username
 from .models import Cart, Order, OrderedItems
 
-
+from django.contrib.sites.shortcuts import get_current_site
 
 ########## VIEWS ############
 
 
 def login_view(request):
+    print(get_current_site(request).domain)
     if request.method == "POST":
         if user_login(request):
             response = HttpResponseRedirect(reverse("base:index"))
