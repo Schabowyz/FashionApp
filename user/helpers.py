@@ -5,7 +5,6 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.validators import validate_email
@@ -71,7 +70,7 @@ def check_username(request):
     return error
     
 
-def check_password(request):
+def check_user_password(request):
     error = False
     if request.POST["password"] != request.POST["repeat_password"]:
         messages.error(request, "passwords don't match")
@@ -117,7 +116,7 @@ def user_register(request):
     error = False
     if check_username(request):
         error = True
-    if check_password(request):
+    if check_user_password(request):
         error = True
 
     if not error:
@@ -145,11 +144,10 @@ def user_activate(request, uidb64, token):
         messages.error(request, "activation link is invalid")
 
 
-# DODAĆ IMIĘ UŻYTKOWNIKA
 def activateEmail(request, user, to_email):
     mail_subject = "Account activation email"
     message = render_to_string("user/mail_activation.html", {
-        "user": "user" ,
+        "user": "new user" ,
         "domain": settings.DOMAIN,
         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
         "token": account_activation_token.make_token(user),
@@ -182,16 +180,20 @@ def renewEmail(request):
     to_email = request.POST["email"]
     try:
         user = User.objects.get(email = to_email)
+        if user.first_name:
+            name = user.first_name
+        else:
+            name = "user"
     except User.DoesNotExist:
         messages.error(request, "wrong email address")
         return
     mail_subject = "Password renewal email"
     message = render_to_string("user/mail_renew_password.html", {
-        "user": "user",
+        "user": name,
         "domain": settings.DOMAIN,
         "uid": urlsafe_base64_encode(force_bytes(user.pk)),
         "token": PasswordResetTokenGenerator().make_token(user),
-        "protocol": "https" if request.is_secure() else "http"
+        "protocol": "https://" if request.is_secure() else "http://"
     })
     email = EmailMessage(mail_subject, message, to=[to_email])
     if email.send():
@@ -201,11 +203,7 @@ def renewEmail(request):
         messages.error(request, "couldn't send password renewal email")
 
 
-# DODAĆ CHECK PW
 def change_password(request):
-    if request.POST["password"] != request.POST["repeat_password"]:
-        messages.error(request, "passwords don't match")
-        return
     user = User.objects.get(id=request.user.id)
     user.set_password(request.POST["password"])
     user.save()

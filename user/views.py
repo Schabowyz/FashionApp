@@ -2,14 +2,14 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse
 
 import stripe
 
 from .helpers import user_login, user_logout, user_register, get_user_address, get_user_orders, user_activate, renewEmail, user_renew_password, change_password, change_info, change_email, change_address, delete_account
-from .helpers import get_cart_info,save_form_data, buy_user, buy_guest, order_email, check_demo_user, check_password, check_username
-from .models import Cart, Order, OrderedItems
+from .helpers import get_cart_info,save_form_data, buy_user, buy_guest, order_email, check_demo_user, check_user_password, check_username
+from .models import Cart, Order
 
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -173,7 +173,7 @@ def activate(request, uidb64, token):
 
 @login_required
 def user_change_password(request):
-    if not check_demo_user(request) and not check_password(request):
+    if not check_demo_user(request) and not check_user_password(request):
         change_password(request)
     return HttpResponseRedirect(reverse("user:profile"))
 
