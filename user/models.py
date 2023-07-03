@@ -2,7 +2,6 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.dispatch import receiver
 
 import json
 
@@ -22,7 +21,7 @@ class UserAddress(models.Model):
 
 
 class Order(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     stripe_id = models.CharField(max_length=500, null=True)
     email = models.CharField(max_length=128)
     date = models.DateTimeField()
